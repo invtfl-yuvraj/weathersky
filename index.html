@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Weather Sky</title>
+    <link rel="stylesheet" href="./main.css">
+    
+    <!-- npx tailwindcss -i ./main.css -o ./style.css --watch -->
+    <!-- <link rel="stylesheet" href="./style.css"> -->
+
+</head>
+<body class="bg-deepBlue">
+
+<div class="wrapper w-full h-full ">
+
+    <!-- nav creation -->
+    <nav class="w-lvw flex justify-between items-center px-10 py-4 text-lg bg-white bg-opacity-5">
+        <!-- logo -->
+        <div class="logo h-20 w-24 overflow-hidden">
+            <img class="h-24 w-24 object-cover" src="./assets/weather logo.png" alt="">
+        </div>
+
+
+        <!-- Search bar creation -->
+        <div class="searchbar flex justify-between items-center border-2 rounded-lg p-2 cursor-pointer" onclick="focusInput()">
+
+            <input id="searchInput" class="bg-transparent text-white outline-none" type="text" placeholder="Search for places...">
+
+            <!-- search button -->
+            <svg class="invert" xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="20" height="20" viewBox="0 0 50 50">
+                <path d="M 21 3 C 11.621094 3 4 10.621094 4 20 C 4 29.378906 11.621094 37 21 37 C 24.710938 37 28.140625 35.804688 30.9375 33.78125 L 44.09375 46.90625 L 46.90625 44.09375 L 33.90625 31.0625 C 36.460938 28.085938 38 24.222656 38 20 C 38 10.621094 30.378906 3 21 3 Z M 21 5 C 29.296875 5 36 11.703125 36 20 C 36 28.296875 29.296875 35 21 35 C 12.703125 35 6 28.296875 6 20 C 6 11.703125 12.703125 5 21 5 Z"></path>
+            </svg>
+        </div>
+        
+        
+            <!-- Hamburger creation -->
+        <input class="hidden" type="checkbox" data-hamCheck>
+        <label for="check" class="hamburger h-10 w-10 flex justify-center items-center group">
+            <div
+                class="bar relative h-1 w-full bg-white rounded-lg  before:absolute before:content-[''] before:h-full before:w-full before:bg-white before:rounded-lg before:-translate-y-3 after:absolute after:content-[''] after:h-full after:w-full after:bg-white after:rounded-lg after:translate-y-3 
+            before:transition-all before:duration-250  after:transition-all after:duration-250 group-hover:bg-transparent group-hover:before:rotate-45 group-hover:before:w-4/5 group-hover:before:-translate-y-1 group-hover:before:left-1 group-hover:before:top-1 group-hover:after:-rotate-45 group-hover:after:w-4/5 group-hover:after:translate-y-1 group-hover:after:right-1 group-hover:after:bottom-1">
+            </div>
+        </label>
+
+    </nav>
+</div>
+    
+<script src="./script.js"></script>
+</body>
+</html>
