@@ -8,9 +8,13 @@ module.exports = {
       },
       colors: {
         deepBlue: "#04021D",
+        lightPink: "#FF00E5",
+        lightBlue: "#0066FF",
+
       },
     },
   },
   plugins: [],
 }
+
 
