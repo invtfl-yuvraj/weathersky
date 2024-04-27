@@ -76,90 +76,58 @@
 
         </nav>
 
-        <section class="h-screen w-full">
+        <section class="h-[80vh] w-full">
 
-            <div class="main grid grid-rows-1 grid-cols-2 mx-40 bg-red-200">
+            <div class="main grid grid-rows-1 grid-cols-2 mx-40 text-white h-4/5 mt-20 gap-20">
                 <!-- location weather -->
-                <div class="flex flex-col">
+                <div class="flex flex-col justify-between pr-20">
                     <!-- location  -->
                     <div class="">
-                        <h2>New Delhi</h2>
-                        <h3>Mostly Clear</h3>
+                        <h2 class="text-7xl font-semibold">New Delhi</h2>
+                        <h3 class="text-3xl ">Mostly Clear</h3>
                     </div>
 
                     <!-- temperature -->
-                    <div class="grid grid-rows-1 grid-clos-2">
-                        <div class="">
-                            <h2 class=""><span>35&#8451;</span></h2>
+                    <div class="flex justify-between items-center">
+                        <div class="flex flex-col gap-2">
+                            <h2 class="text-7xl"><span>35&#8451;</span></h2>
                             <h3 class="">Feels like <span>45&#8451;</span> </h3>
                             <div class="grid grid-rows-2 grid-cols-2">
-                                <div class="">Low</div>
-                                <div class="">High</div>
+                                <div class="text-cyan">Low</div>
+                                <div class="text-cyan">High</div>
                                 <div class=""><span>35&#8451;</span></div>
                                 <div class=""><span>45&#8451;</span></div>
                             </div>
                         </div>
-                        <div class="">
-                            <img src="" alt="">
+                        <div class="relative w-52 aspect-square ">
+                            <img src="./assets/weather states/Sunny.png" alt="">
                         </div>
                     </div>
 
                     <!-- other details  -->
-                    <div class="flex justify-between items-center">
+                    <div class="flex justify-between items-center pr-8">
 
-                        <div class="flex justify-between items-center flex-col">
+                        <div class="flex justify-between items-center flex-col gap-4">
                             <h4>Wind</h4>
-                            <img src="" alt="">
-                            <p><span>10</span>km/h</p>
+                            <img class="w-20" src="./assets/Wind.png" alt="">
+                            <p class="text-cyan"><span>10</span>km/h</p>
                         </div>
-                        <div class="flex justify-between items-center flex-col">
+                        <div class="flex justify-between items-center flex-col gap-4">
                             <h4>Precipitation</h4>
-                            <img src="" alt="">
-                            <p><span>0</span>%</p>
+                            <img class="w-20" src="./assets/rain-img.png" alt="">
+                            <p class="text-cyan"><span>0</span>%</p>
                         </div>
-                        <div class="flex justify-between items-center flex-col">
+                        <div class="flex justify-between items-center flex-col gap-4" >
                             <h4>Humidity</h4>
-                            <img src="" alt="">
-                            <p><span>100</span>%</p>
+                            <img class="w-12" src="./assets/Humid-img.png" alt="">
+                            <p class="text-cyan"><span>100</span>%</p>
                         </div>
 
                     </div>
                     
 
                 </div>
-                <!-- 10days and daily weather -->
-                <div class="flex flex-col justify-between items-center">
-                    <div class="flex justify-between items-center">
-                        <div class="">today</div>
-                        <div class="">10days</div>
-                    </div>
-                    <div class="">
-                        <p class="">12:00PM</p>
-                        <p class="">35<span>&#8451;</span></p>
-                        <p class="">0%</p>
-                        <img class="" src="" alt="">
-                    </div>
-                    <div class="">
-                        <p class="">12:00PM</p>
-                        <p class="">35<span>&#8451;</span></p>
-                        <p class="">0%</p>
-                        <img class="" src="" alt="">
-                    </div>
-                    <div class="">
-                        <p class="">12:00PM</p>
-                        <p class="">35<span>&#8451;</span></p>
-                        <p class="">0%</p>
-                        <img class="" src="" alt="">
-                    </div>
-                    <div class="">
-                        <p class="">12:00PM</p>
-                        <p class="">35<span>&#8451;</span></p>
-                        <p class="">0%</p>
-                        <img class="" src="" alt="">
-                    </div>
-
-                </div>
-            </div>
+                
 
 
         </section>
