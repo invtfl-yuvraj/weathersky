@@ -20,6 +20,10 @@
             -webkit-filter: blur(120px);
             filter: blur(120px);
         }
+
+        .no-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
     </style>
 
 </head>
@@ -76,22 +80,27 @@
 
         </nav>
 
-        <section class="h-[80vh] w-full">
+        <section class="h-[90vh] w-full">
 
-            <div class="main grid grid-rows-1 grid-cols-2 mx-40 text-white h-4/5 mt-20 gap-20">
+            <div class="main grid grid-rows-1 grid-cols-2 mx-40 text-white h-5/6 pt-24 gap-20">
                 <!-- location weather -->
                 <div class="flex flex-col justify-between pr-20">
                     <!-- location  -->
                     <div class="">
                         <h2 class="text-7xl font-semibold">New Delhi</h2>
-                        <h3 class="text-3xl ">Mostly Clear</h3>
+                        <h3 class="text-2xl">Delhi, India</h3>
+
                     </div>
 
                     <!-- temperature -->
                     <div class="flex justify-between items-center">
                         <div class="flex flex-col gap-2">
-                            <h2 class="text-7xl"><span>35&#8451;</span></h2>
-                            <h3 class="">Feels like <span>45&#8451;</span> </h3>
+                            <h3 class="text-3xl ">Mostly Clear</h3>
+                            <div class="">
+                                <h2 class="text-7xl "><span>35&#8451;</span></h2>
+                                <h3 class="text-red-300">Feels like <span>45&#8451;</span> </h3>
+                            </div>
+
                             <div class="grid grid-rows-2 grid-cols-2">
                                 <div class="text-cyan">Low</div>
                                 <div class="text-cyan">High</div>
@@ -117,60 +126,153 @@
                             <img class="w-20" src="./assets/rain-img.png" alt="">
                             <p class="text-cyan"><span>0</span>%</p>
                         </div>
-                        <div class="flex justify-between items-center flex-col gap-4" >
+                        <div class="flex justify-between items-center flex-col gap-4">
                             <h4>Humidity</h4>
                             <img class="w-12" src="./assets/Humid-img.png" alt="">
                             <p class="text-cyan"><span>100</span>%</p>
                         </div>
 
+                        <button class="h-10 w-20 bg-red-200" data-generateBtn>
+                            Click
+                        </button>
+
                     </div>
-                    
+
 
                 </div>
                 <!-- 10days and daily weather -->
-                <div class="flex flex-col justify-between items-center h-full gap-4">
-                    <div class="flex justify-between items-center h-1/6 w-full bg-lightBlue bg-opacity-20 rounded-xl ">
-                        <div class="text-xl flex w-1/2 h-full bg-lightBlue rounded-xl items-center justify-center">Today</div>
-                        <div class="text-xl flex w-1/2 h-full  rounded-xl items-center justify-center">10days</div>
+                <div class="h-full">
+                    <div class="mb-4">
+                        <div
+                            class="flex justify-between items-center w-full bg-lightBlue bg-opacity-20 rounded-xl shadow-[inset_-4px_-4px_8.0px_0.0px_rgba(0,0,0,0.38)]">
+                            <div
+                                class="text-xl flex w-1/2 py-4 bg-lightBlue rounded-xl items-center justify-center shadow-[inset_-4px_-4px_8.0px_0.0px_rgba(0,0,0,0.38)]">
+                                Today</div>
+                            <div
+                                class="text-xl flex w-1/2 py-4 rounded-xl items-center justify-center shadow-[inset_-4px_-4px_8.0px_0.0px_rgba(0,0,0,0.38)]">
+                                10days</div>
+                        </div>
                     </div>
-                    <div class="text-lg flex justify-between h-1/6 items-center w-full bg-lightBlue bg-opacity-20 rounded-xl px-8">
-                        <p class="">12:00PM</p>
-                        <p class="">35<span>&#8451;</span></p>
-                        <p class="">0%</p>
-                        <img class="w-14 aspect-square" src="./assets/weather states/Mostly Clear.png" alt="">
-                    </div>
-                    <div class="text-lg flex justify-between items-center h-1/6 w-full bg-lightBlue bg-opacity-20 rounded-xl px-8">
-                        <p class="">12:00PM</p>
-                        <p class="">35<span>&#8451;</span></p>
-                        <p class="">0%</p>
-                        <img class="w-14 aspect-square" src="./assets/weather states/Heavy Rain.png" alt="">
-                    </div>
-                    <div class="text-lg flex justify-between items-center h-1/6 w-full bg-lightBlue bg-opacity-20 rounded-xl px-8">
-                        <p class="">12:00PM</p>
-                        <p class="">35<span>&#8451;</span></p>
-                        <p class="">0%</p>
-                        <img class="w-14 aspect-square" src="./assets/weather states/Snow.png" alt="">
-                    </div>
-                    <div class="text-lg flex justify-between items-center h-1/6 w-full bg-lightBlue bg-opacity-20 rounded-xl px-8">
-                        <p class="">12:00PM</p>
-                        <p class="">35<span>&#8451;</span></p>
-                        <p class="">0%</p>
-                        <img class="w-14 aspect-square" src="./assets/weather states/Heavy Thunderstorm.png" alt="">
-                    </div>
-                    <div class="text-lg flex justify-between items-center h-1/6 w-full bg-lightBlue bg-opacity-20 rounded-xl px-8">
-                        <p class="">12:00PM</p>
-                        <p class="">35<span>&#8451;</span></p>
-                        <p class="">0%</p>
-                        <img class="w-14 aspect-square" src="./assets/weather states/Heavy Thunderstorm.png" alt="">
-                    </div>
+                    <div class="flex flex-col justify-between items-center h-5/6 gap-4 overflow-y-scroll no-scrollbar">
 
+                        <div
+                            class="text-lg flex justify-between h-20 items-center w-full bg-lightBlue bg-opacity-20 rounded-xl px-8 shadow-[inset_-4px_-4px_8.0px_0.0px_rgba(0,0,0,0.38)]">
+                            <p class="py-4">12:00AM</p>
+                            <p class="">35<span>&#8451;</span></p>
+                            <p class="">0%</p>
+                            <img class="w-14 aspect-square" src="./assets/weather states/Mostly Clear.png" alt="">
+                        </div>
+                        <div
+                            class="text-lg flex justify-between items-center h-20 w-full bg-lightBlue bg-opacity-20 rounded-xl px-8 shadow-[inset_-4px_-4px_8.0px_0.0px_rgba(0,0,0,0.38)]">
+                            <p class="">12:00PM</p>
+                            <p class="">35<span>&#8451;</span></p>
+                            <p class="">0%</p>
+                            <img class="w-14 aspect-square" src="./assets/weather states/Heavy Rain.png" alt="">
+                        </div>
+                        <div
+                            class="text-lg flex justify-between items-center h-20 w-full bg-lightBlue bg-opacity-20 rounded-xl px-8 shadow-[inset_-4px_-4px_8.0px_0.0px_rgba(0,0,0,0.38)]">
+                            <p class="">12:00PM</p>
+                            <p class="">35<span>&#8451;</span></p>
+                            <p class="">0%</p>
+                            <img class="w-14 aspect-square" src="./assets/weather states/Snow.png" alt="">
+                        </div>
+                        <div
+                            class="text-lg flex justify-between items-center h-20 w-full bg-lightBlue bg-opacity-20 rounded-xl px-8 shadow-[inset_-4px_-4px_8.0px_0.0px_rgba(0,0,0,0.38)]">
+                            <p class="">12:00PM</p>
+                            <p class="">35<span>&#8451;</span></p>
+                            <p class="">0%</p>
+                            <img class="w-14 aspect-square" src="./assets/weather states/Heavy Thunderstorm.png" alt="">
+                        </div>
+                        <div
+                            class="text-lg flex justify-between items-center h-20 w-full bg-lightBlue bg-opacity-20 rounded-xl px-8 shadow-[inset_-4px_-4px_8.0px_0.0px_rgba(0,0,0,0.38)]">
+                            <p class="">12:00PM</p>
+                            <p class="">35<span>&#8451;</span></p>
+                            <p class="">0%</p>
+                            <img class="w-14 aspect-square" src="./assets/weather states/Heavy Thunderstorm.png" alt="">
+                        </div>
+                        <div
+                            class="text-lg flex justify-between items-center h-20 w-full bg-lightBlue bg-opacity-20 rounded-xl px-8 shadow-[inset_-4px_-4px_8.0px_0.0px_rgba(0,0,0,0.38)]">
+                            <p class="">12:00PM</p>
+                            <p class="">35<span>&#8451;</span></p>
+                            <p class="">0%</p>
+                            <img class="w-14 aspect-square" src="./assets/weather states/Heavy Thunderstorm.png" alt="">
+                        </div>
+                        <div
+                            class="text-lg flex justify-between items-center h-20 w-full bg-lightBlue bg-opacity-20 rounded-xl px-8 shadow-[inset_-4px_-4px_8.0px_0.0px_rgba(0,0,0,0.38)]">
+                            <p class="">12:00PM</p>
+                            <p class="">35<span>&#8451;</span></p>
+                            <p class="">0%</p>
+                            <img class="w-14 aspect-square" src="./assets/weather states/Heavy Thunderstorm.png" alt="">
+                        </div>
+                        <div
+                            class="text-lg flex justify-between items-center h-20 w-full bg-lightBlue bg-opacity-20 rounded-xl px-8 shadow-[inset_-4px_-4px_8.0px_0.0px_rgba(0,0,0,0.38)]">
+                            <p class="">12:00PM</p>
+                            <p class="">35<span>&#8451;</span></p>
+                            <p class="">0%</p>
+                            <img class="w-14 aspect-square" src="./assets/weather states/Heavy Thunderstorm.png" alt="">
+                        </div>
+                        <div
+                            class="text-lg flex justify-between items-center h-20 w-full bg-lightBlue bg-opacity-20 rounded-xl px-8 shadow-[inset_-4px_-4px_8.0px_0.0px_rgba(0,0,0,0.38)]">
+                            <p class="">12:00PM</p>
+                            <p class="">35<span>&#8451;</span></p>
+                            <p class="">0%</p>
+                            <img class="w-14 aspect-square" src="./assets/weather states/Heavy Thunderstorm.png" alt="">
+                        </div>
+                        <div
+                            class="text-lg flex justify-between items-center h-20 w-full bg-lightBlue bg-opacity-20 rounded-xl px-8 shadow-[inset_-4px_-4px_8.0px_0.0px_rgba(0,0,0,0.38)]">
+                            <p class="">12:00PM</p>
+                            <p class="">35<span>&#8451;</span></p>
+                            <p class="">0%</p>
+                            <img class="w-14 aspect-square" src="./assets/weather states/Heavy Thunderstorm.png" alt="">
+                        </div>
+                        <div
+                            class="text-lg flex justify-between items-center h-20 w-full bg-lightBlue bg-opacity-20 rounded-xl px-8 shadow-[inset_-4px_-4px_8.0px_0.0px_rgba(0,0,0,0.38)]">
+                            <p class="">12:00PM</p>
+                            <p class="">35<span>&#8451;</span></p>
+                            <p class="">0%</p>
+                            <img class="w-14 aspect-square" src="./assets/weather states/Heavy Thunderstorm.png" alt="">
+                        </div>
+                        <div
+                            class="text-lg flex justify-between items-center h-20 w-full bg-lightBlue bg-opacity-20 rounded-xl px-8 shadow-[inset_-4px_-4px_8.0px_0.0px_rgba(0,0,0,0.38)]">
+                            <p class="">12:00PM</p>
+                            <p class="">35<span>&#8451;</span></p>
+                            <p class="">0%</p>
+                            <img class="w-14 aspect-square" src="./assets/weather states/Heavy Thunderstorm.png" alt="">
+                        </div>
+                        <div
+                            class="text-lg flex justify-between items-center h-20 w-full bg-lightBlue bg-opacity-20 rounded-xl px-8 shadow-[inset_-4px_-4px_8.0px_0.0px_rgba(0,0,0,0.38)]">
+                            <p class="">12:00PM</p>
+                            <p class="">35<span>&#8451;</span></p>
+                            <p class="">0%</p>
+                            <img class="w-14 aspect-square" src="./assets/weather states/Heavy Thunderstorm.png" alt="">
+                        </div>
+                        <div
+                            class="text-lg flex justify-between items-center h-20 w-full bg-lightBlue bg-opacity-20 rounded-xl px-8 shadow-[inset_-4px_-4px_8.0px_0.0px_rgba(0,0,0,0.38)]">
+                            <p class="">12:00PM</p>
+                            <p class="">35<span>&#8451;</span></p>
+                            <p class="">0%</p>
+                            <img class="w-14 aspect-square" src="./assets/weather states/Heavy Thunderstorm.png" alt="">
+                        </div>
+
+
+
+                    </div>
+                    <div class="flex justify-center items-center w-full pt-4">
+                        <a class="" href="#" class="underline">Show full details</a>
+                    </div>
                 </div>
+
             </div>
-            
-                
+            <div class="w-full flex items-center justify-center px-40 pt-8">
+                <img class="w-20" src="./assets/Chevron Down.png" alt="">
+            </div>
+
+
 
 
         </section>
+
+
     </div>
 
     <script src="./script.js"></script>
