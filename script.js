@@ -20,9 +20,27 @@ async function currentWeather() {
     console.log("Current temperature : ", data.current.temp_c);
 }
 
-clickBtn.addEventListener("click", () => {
-    currentWeather();
+// clickBtn.addEventListener("click", () => {
+//     currentWeather();
+// });
+
+
+function debounce(func, delay) {
+    let timeout;
+    return (...args) => {
+        clearTimeout(timeout); // resetting timeout if user clicks again before delay time complete
+        timeout = setTimeout(() => {
+            func.apply(this, args);
+        }, delay);
+    };
+}
+
+
+const handleInput = debounce(() => {
+    console.log('Input value:', searchInput.value);
+}, 500);
+
+searchInput.addEventListener('input', () => {
+    handleInput();
 });
-
-
 
