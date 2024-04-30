@@ -53,18 +53,29 @@
 
             <!-- Search bar creation -->
 
-            <div class="relative w-1/4 bg-lightBlue  flex justify-between items-center rounded-xl p-2 px-4 cursor-pointer shadow-[inset_-4px_-4px_8.0px_0.0px_rgba(0,0,0,0.38)] bg-opacity-50"
-                data-searchBar>
+            <div class="relative w-1/4 rounded-xl">
 
-                <input class="bg-transparent text-white outline-none placeholder-white" type="text" placeholder="Search for places..."
-                    data-searchInput>
+                <div class="w-full bg-lightBlue flex justify-between items-center rounded-xl rounded-tl-xl rounded-tr-xl  p-2 px-4 cursor-pointer shadow-[inset_-4px_-4px_8.0px_0.0px_rgba(0,0,0,0.38)] bg-opacity-50"
+                    data-searchBar>
 
-                <!-- search button -->
-                <svg class="invert" xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="20" height="20" viewBox="0 0 50 50">
-                    <path
-                        d="M 21 3 C 11.621094 3 4 10.621094 4 20 C 4 29.378906 11.621094 37 21 37 C 24.710938 37 28.140625 35.804688 30.9375 33.78125 L 44.09375 46.90625 L 46.90625 44.09375 L 33.90625 31.0625 C 36.460938 28.085938 38 24.222656 38 20 C 38 10.621094 30.378906 3 21 3 Z M 21 5 C 29.296875 5 36 11.703125 36 20 C 36 28.296875 29.296875 35 21 35 C 12.703125 35 6 28.296875 6 20 C 6 11.703125 12.703125 5 21 5 Z">
-                    </path>
-                </svg>
+                    <input class="bg-transparent text-white outline-none placeholder-white" type="text" placeholder="Search for cities..."
+                        data-searchInput>
+
+                    <!-- search button -->
+                    <svg class="invert" xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="20" height="20" viewBox="0 0 50 50" data-searchBtn>
+                        <path
+                            d="M 21 3 C 11.621094 3 4 10.621094 4 20 C 4 29.378906 11.621094 37 21 37 C 24.710938 37 28.140625 35.804688 30.9375 33.78125 L 44.09375 46.90625 L 46.90625 44.09375 L 33.90625 31.0625 C 36.460938 28.085938 38 24.222656 38 20 C 38 10.621094 30.378906 3 21 3 Z M 21 5 C 29.296875 5 36 11.703125 36 20 C 36 28.296875 29.296875 35 21 35 C 12.703125 35 6 28.296875 6 20 C 6 11.703125 12.703125 5 21 5 Z">
+                        </path>
+                    </svg>
+
+                </div>
+                <div class="absolute bg-lightBlue w-full top-10 rounded-bl-xl rounded-br-xl shadow-[inset_-4px_-4px_8.0px_0.0px_rgba(0,0,0,0.38)] flex flex-col justify-between " data-searchSuggest>
+                  
+                    <!-- <div class="p-4 text-white hover:bg-blue-800 rounde">Farrukhnagar, Andhra Pradesh, India</div>
+                    <div class="p-4 text-white hover:bg-blue-800 rounde">Farrukhnagar, Andhra Pradesh, India</div> -->
+               
+                </div>
+
             </div>
 
 
@@ -95,10 +106,10 @@
                     <!-- temperature -->
                     <div class="flex justify-between items-center">
                         <div class="flex flex-col gap-2">
-                            <h3 class="text-3xl ">Mostly Clear</h3>
+                            <h3 class="text-3xl text-cyan">Mostly Clear</h3>
                             <div class="">
                                 <h2 class="text-7xl "><span>35&#8451;</span></h2>
-                                <h3 class="text-red-300">Feels like <span>45&#8451;</span> </h3>
+                                <h3 class="">Feels like <span>45&#8451;</span> </h3>
                             </div>
 
                             <div class="grid grid-rows-2 grid-cols-2">
@@ -132,9 +143,9 @@
                             <p class="text-cyan"><span>100</span>%</p>
                         </div>
 
-                        <button class="h-10 w-20 bg-red-200" data-generateBtn>
+                        <!-- <button class="h-10 w-20 bg-red-200" data-generateBtn>
                             Click
-                        </button>
+                        </button> -->
 
                     </div>
 
