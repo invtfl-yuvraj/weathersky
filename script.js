@@ -3,50 +3,25 @@ const searchInput = document.querySelector("[data-searchInput]");
 const searchBtn = document.querySelector("[data-searchBtn]");
 const searchSuggest = document.querySelector("[data-searchSuggest]");
 
-const APIKEY = "681a519968834de490b44801242804"
+const APIKEY = "681a519968834de490b44801242804";
 
-
-searchBar.addEventListener("click", () => {
-    searchInput.focus();
-})
 
 async function currentWeather() {
-    let cityName = searchInput.value;
 
-    const response = await fetch(`http://api.weatherapi.com/v1/current.json?key=${APIKEY}&q=${cityName}`);
+    try {
+        let cityName = searchInput.value;
 
-    const data = await response.json();
+        const response = await fetch(`http://api.weatherapi.com/v1/current.json?key=${APIKEY}&q=${cityName}`);
 
-    console.log("Weather data -> ", data);
-    console.log("Current temperature : ", data.current.temp_c);
-}
+        const data = await response.json();
 
-searchBtn.addEventListener("click", () => {
-    currentWeather();
-});
+        console.log("Weather data -> ", data);
+        console.log("Current temperature : ", data.current.temp_c);
 
-
-function debounce(func, delay) {
-    let timeout;
-    return (...args) => {
-        clearTimeout(timeout); // resetting timeout if user clicks again before delay time complete
-        timeout = setTimeout(() => {
-            func.apply(this, args);
-        }, delay);
-    };
-}
-
-
-const handleInput = debounce(() => {
-    console.log('Input value:', searchInput.value);
-    searchSuggestions();
-
-}, 500);
-
-searchInput.addEventListener('input', () => {
-    handleInput();
-    showSearchSuggestions(-1, []);
-});
+    } catch (error) {
+        console.log("Error Occured : ", error);
+    }
+};
 
 
 async function searchSuggestions() {
@@ -68,7 +43,24 @@ async function searchSuggestions() {
     } catch (error) {
         console.log("Error Occured : ", error);
     }
+};
+
+
+function debounce(func, delay) {
+    let timeout;
+    return (...args) => {
+        clearTimeout(timeout); // resetting timeout if user clicks again before delay time complete
+        timeout = setTimeout(() => {
+            func.apply(this, args);
+        }, delay);
+    };
 }
+
+const handleInput = debounce(() => {
+    searchSuggestions();
+    console.log('Input value:', searchInput.value);
+}, 500);
+
 
 function showSearchSuggestions(numOFSuggestions, data) {
 
@@ -106,5 +98,24 @@ function showSearchSuggestions(numOFSuggestions, data) {
             searchSuggest.removeChild(searchSuggest.firstChild);
         }
     }
-    
-}
+};
+
+
+searchInput.addEventListener('input', () => {
+    handleInput();
+    showSearchSuggestions(-1, []);
+});
+
+
+searchBar.addEventListener("click", () => {
+    searchInput.focus();
+});
+
+
+searchBtn.addEventListener("click", () => {
+    searchInput.value = "";
+    showSearchSuggestions(-1, []);
+    currentWeather();
+});
+
+
