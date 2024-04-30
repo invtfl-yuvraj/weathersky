@@ -70,4 +70,41 @@ async function searchSuggestions() {
     }
 }
 
+function showSearchSuggestions(numOFSuggestions, data) {
 
+    if (searchInput.value != "" && numOFSuggestions != -1) {
+
+        searchBar.classList.remove("rounded-xl", "bg-opacity-50");
+        searchBar.classList.add("rounded-tl-xl", "rounded-tr-xl");
+
+        // addding new divs
+
+        for (let i = 0; i < numOFSuggestions; i++) {
+
+            const newDiv = document.createElement("div");
+            newDiv.classList.add("p-4", "text-white", "hover:bg-blue-900");
+            if (i == numOFSuggestions - 1) {
+                newDiv.classList.add("rounded-bl-xl", "rounded-br-xl");
+            }
+            newDiv.innerText = `${data[i].name}, ${data[i].region}, ${data[i].country}`;
+            searchSuggest.appendChild(newDiv);
+        }
+
+        if (numOFSuggestions == 0) {
+            const newDiv = document.createElement("div");
+            newDiv.classList.add("p-4", "text-white", "hover:bg-blue-900");
+            newDiv.classList.add("rounded-bl-xl", "rounded-br-xl");
+            newDiv.innerText = `No city found!!`;
+            searchSuggest.appendChild(newDiv);
+        }
+    }
+    else {
+        searchBar.classList.remove("rounded-tl-xl", "rounded-tr-xl");
+        searchBar.classList.add("rounded-xl", "bg-opacity-50");
+
+        while (searchSuggest.firstChild) {
+            searchSuggest.removeChild(searchSuggest.firstChild);
+        }
+    }
+    
+}
