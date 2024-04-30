@@ -7,6 +7,7 @@ const APIKEY = "681a519968834de490b44801242804";
 
 
 async function currentWeather() {
+    // Weather api to find the current weather of a particular location
 
     try {
         let cityName = searchInput.value;
@@ -14,6 +15,8 @@ async function currentWeather() {
         const response = await fetch(`http://api.weatherapi.com/v1/current.json?key=${APIKEY}&q=${cityName}`);
 
         const data = await response.json();
+
+        showWeather(data);
 
         console.log("Weather data -> ", data);
         console.log("Current temperature : ", data.current.temp_c);
@@ -23,8 +26,13 @@ async function currentWeather() {
     }
 };
 
+function showWeather(data){
+    
+}
+
 
 async function searchSuggestions() {
+    // Location suggestion api to suggest city names only with few starting letters as input
 
     try {
         let currentText = searchInput.value;
@@ -47,6 +55,8 @@ async function searchSuggestions() {
 
 
 function debounce(func, delay) {
+    // using deboucing to add delay or hold utill users finish typing...
+
     let timeout;
     return (...args) => {
         clearTimeout(timeout); // resetting timeout if user clicks again before delay time complete
@@ -63,6 +73,11 @@ const handleInput = debounce(() => {
 
 
 function showSearchSuggestions(numOFSuggestions, data) {
+
+    // numOfSuggestions values  : 
+    // -1 : reset to default state
+    // 0 : no data available
+    // >2 : go ahead....
 
     if (searchInput.value != "" && numOFSuggestions != -1) {
 
@@ -113,9 +128,14 @@ searchBar.addEventListener("click", () => {
 
 
 searchBtn.addEventListener("click", () => {
-    searchInput.value = "";
-    showSearchSuggestions(-1, []);
-    currentWeather();
+
+    if (searchInput.value.length > 2) {
+        
+        currentWeather();
+        showSearchSuggestions(-1, []);
+        searchInput.value = "";
+
+    }
 });
 
 
