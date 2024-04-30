@@ -61,3 +61,12 @@ async function searchComplete() {
 
 }
 
+function searchSuggestions(numOFSuggestions, data) {
+
+    for (let i = 0; i < numOFSuggestions; i++) {
+        const newDiv = document.createElement("div");
+        newDiv.classList.add("p-4", "text-white", "hover:bg-red-200");
+        newDiv.innerText = `${data[i].name}, ${data[i].region}, ${data[i].country}`;
+        searchSuggest.appendChild(newDiv);
+    }
+}
