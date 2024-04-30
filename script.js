@@ -1,6 +1,6 @@
 const searchBar = document.querySelector("[data-searchBar]");
 const searchInput = document.querySelector("[data-searchInput]");
-const clickBtn = document.querySelector("[data-generateBtn]");
+const searchBtn = document.querySelector("[data-searchBtn]");
 const searchSuggest = document.querySelector("[data-searchSuggest]");
 
 const APIKEY = "681a519968834de490b44801242804"
@@ -11,7 +11,7 @@ searchBar.addEventListener("click", () => {
 })
 
 async function currentWeather() {
-    let cityName = "nashik";
+    let cityName = searchInput.value;
 
     const response = await fetch(`http://api.weatherapi.com/v1/current.json?key=${APIKEY}&q=${cityName}`);
 
@@ -21,9 +21,9 @@ async function currentWeather() {
     console.log("Current temperature : ", data.current.temp_c);
 }
 
-// clickBtn.addEventListener("click", () => {
-//     currentWeather();
-// });
+searchBtn.addEventListener("click", () => {
+    currentWeather();
+});
 
 
 function debounce(func, delay) {
@@ -39,34 +39,35 @@ function debounce(func, delay) {
 
 const handleInput = debounce(() => {
     console.log('Input value:', searchInput.value);
-    // searchComplete();
+    searchSuggestions();
+
 }, 500);
 
 searchInput.addEventListener('input', () => {
     handleInput();
+    showSearchSuggestions(-1, []);
 });
 
 
-async function searchComplete() {
+async function searchSuggestions() {
 
-    let currentText = searchInput.value;
+    try {
+        let currentText = searchInput.value;
 
-    const response = await fetch(`http://api.weatherapi.com/v1/search.json?key=${APIKEY}&q=${currentText}`);
-    const data = await response.json();
+        if (currentText.length > 2) {
+            const response = await fetch(`http://api.weatherapi.com/v1/search.json?key=${APIKEY}&q=${currentText}`);
+            const data = await response.json();
 
-    searchSuggestions(data.length, data);
+            showSearchSuggestions(data.length, data);
+            console.log(data);
+        }
+        else {
+            showSearchSuggestions(0, []);
+        }
 
-    console.log(data);
-    console.log(data[0].name);
-
-}
-
-function searchSuggestions(numOFSuggestions, data) {
-
-    for (let i = 0; i < numOFSuggestions; i++) {
-        const newDiv = document.createElement("div");
-        newDiv.classList.add("p-4", "text-white", "hover:bg-red-200");
-        newDiv.innerText = `${data[i].name}, ${data[i].region}, ${data[i].country}`;
-        searchSuggest.appendChild(newDiv);
+    } catch (error) {
+        console.log("Error Occured : ", error);
     }
 }
+
+
