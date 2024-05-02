@@ -2,6 +2,11 @@ const searchBar = document.querySelector("[data-searchBar]");
 const searchInput = document.querySelector("[data-searchInput]");
 const searchBtn = document.querySelector("[data-searchBtn]");
 const searchSuggest = document.querySelector("[data-searchSuggest]");
+const locationName = document.querySelector("[data-locationName]");
+const locationRegion = document.querySelector("[data-locationRegion]");
+const weatherCondition = document.querySelector("[data-weatherCondition]");
+const currentTemp = document.querySelector("[data-currentTemp]");
+const feelsLike = document.querySelector("[data-feelsLike]");
 
 const APIKEY = "681a519968834de490b44801242804";
 
@@ -27,7 +32,11 @@ async function currentWeather() {
 };
 
 function showWeather(data){
-    
+    locationName.textContent = data.location.name;
+    locationRegion.textContent = `${data.location.region}, ${data.location.country}`;
+    weatherCondition.textContent = data.current.condition.text;
+    currentTemp.innerHTML = `${Math.round(data.current.temp_c)}&#8451;`;
+    feelsLike.innerHTML = `${Math.round(data.current.feelslike_c)}&#8451;`;
 }
 
 
