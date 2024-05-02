@@ -4,12 +4,14 @@ module.exports = {
   theme: {
     extend: {
       fontFamily: {
-        mullish: ["Mulish", "sans-serif"],
+        poppins: ["Poppins", "sans-serif"],
       },
       colors: {
         deepBlue: "#04021D",
         lightPink: "#FF00E5",
         lightBlue: "#0066FF",
+        darkBlue: "#050D35",
+        cyan: "#00FFFF",
 
       },
     },
