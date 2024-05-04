@@ -27,15 +27,15 @@ getfromSessionStorage();
 
 function loaddingOnHomeScreen(currState) {
 
-    if (currState == "add"){
+    if (currState == "add") {
 
         mainHomeScreen.classList.remove("grid");
         mainHomeScreen.classList.add("hidden");
         loadingScreen.classList.remove("hidden");
         loadingScreen.classList.add("flex");
-        
+
     }
-    else if (currState == "remove"){
+    else if (currState == "remove") {
         loadingScreen.classList.remove("flex");
         loadingScreen.classList.add("hidden");
         mainHomeScreen.classList.remove("hidden");
@@ -54,11 +54,12 @@ async function currWeather(coordinates) {
     try {
 
         const response = await fetch(`http://api.weatherapi.com/v1/forecast.json?key=${APIKEY}&q=${lat},${lon}`);
-        
+
         const currWeatherdata = await response.json();
 
         loaddingOnHomeScreen("remove");
         showCurrWeather(currWeatherdata);
+        showHourlyWeather(currWeatherdata);
 
         console.log("Weather data -> ", currWeatherdata);
         console.log("Current temperature : ", currWeatherdata?.current?.temp_c);
@@ -101,11 +102,62 @@ function showCurrWeather(weatherdata) {
     currentDayHighTemp.innerHTML = `${Math.round(weatherdata?.forecast?.forecastday[0]?.day?.mintemp_c)}&#8451;`;
 }
 
-function showHourlyWeather(weatherdata){
+function showHourlyWeather(weatherdata) {
 
-    const hourlyDiv = document.createElement("div");
+    for (let i = 0; i < 24; i++) {
 
-    hourlyDiv.classList.add("text-lg", "flex", "justify-between", "h-20", "items-center", "w-full", "bg-lightBlue", "bg-opacity-20", "rounded-xl", "px-8", "shadow-[inset_-4px_-4px_8.0px_0.0px_rgba(0,0,0,0.38)]")
+        const hourlyDiv = document.createElement("div");
+        hourlyDiv.classList.add("text-lg", "flex", "justify-between", "h-20", "items-center", "w-full", "bg-lightBlue", "bg-opacity-20", "rounded-xl", "px-8", "shadow-[inset_-4px_-4px_8.0px_0.0px_rgba(0,0,0,0.38)]");
+
+        try {
+
+            const timePara = document.createElement("p");
+            hourlyTime = weatherdata?.forecast?.forecastday[0]?.hour[i]?.time.split(' ')[1];
+            if (hourlyTime.split(":")[0]<12){
+                timePara.innerText = `${hourlyTime}AM`;
+            }
+            else {
+                const afterNoonTime = ()=>{
+
+                    if (hourlyTime.split(":")[0]-12 < 10){
+                        return `0${hourlyTime.split(":")[0]-12}:00PM`;
+                    }
+                    else {
+                        return `${hourlyTime.split(":")[0]-12}:00PM`;
+                    }
+                }
+
+                timePara.innerText = afterNoonTime();
+            }
+            hourlyDiv.appendChild(timePara);
+
+            const tempPara = document.createElement("p");
+            tempPara.innerHTML = `${Math.round(weatherdata?.forecast?.forecastday[0]?.hour[i]?.temp_c)}<span>&#8451;</span>`;
+            hourlyDiv.appendChild(tempPara);
+
+            const cloudinessPara = document.createElement("p");
+            cloudinessPara.innerText = `${weatherdata?.forecast?.forecastday[0]?.hour[i]?.cloud}%`;
+            hourlyDiv.appendChild(cloudinessPara);
+
+            const weatherStateImg = document.createElement("img");
+            weatherStateImg.classList.add("w-16", "aspect-square");
+            weatherStateImg.src = "./assets/weather_states/Mostly Clear.png";
+            hourlyDiv.appendChild(weatherStateImg);
+
+        } catch (error) {
+            const hourlyError = document.createElement("p");
+            hourlyError.innerText  = "Something went wrong..";
+            hourlyError.classList.add("py-4");
+            hourlyDiv.appendChild(hourlyError);
+            hourlyDiv.classList.remove("justify-between");
+            hourlyDiv.classList.add("justify-center");
+
+            console.log("Error in hourly data input : ", error);
+            
+        }
+
+        hourlyWeather.appendChild(hourlyDiv);
+    }
 
 }
 
@@ -113,8 +165,8 @@ function showHourlyWeather(weatherdata){
 function getfromSessionStorage() {
 
     const localCoordinates = sessionStorage.getItem("user-coordinates");
-    
-    if(!localCoordinates) {
+
+    if (!localCoordinates) {
         mainHomeScreen.classList.remove("grid");
         mainHomeScreen.classList.add("hidden");
         grantLocation.classList.remove("hidden");
@@ -131,7 +183,7 @@ function getLocation() {
     if (navigator.geolocation) {
         loaddingOnHomeScreen("add");
         navigator.geolocation.getCurrentPosition(showPosition);
-        
+
     }
     else {
         alert(`Sorry, not able get your Location,
@@ -261,7 +313,7 @@ searchBtn.addEventListener("click", () => {
 });
 
 
-grantAccessBtn.addEventListener('click', ()=>{
+grantAccessBtn.addEventListener('click', () => {
 
     grantLocation.classList.remove("flex");
     grantLocation.classList.add("hidden");
