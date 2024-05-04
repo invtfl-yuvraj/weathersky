@@ -12,9 +12,17 @@ const currCloudiness = document.querySelector("[data-currCloudiness]");
 const currHumidity = document.querySelector("[data-currHumidity]");
 const loadingScreen = document.querySelector("[data-loadingScreen]");
 const mainHomeScreen = document.querySelector("[data-mainHomeScreen]");
+const currentDayLowTemp = document.querySelector("[data-currentDayLowTemp]");
+const currentDayHighTemp = document.querySelector("[data-currentDayHighTemp]");
+const grantLocation = document.querySelector("[data-grantLocation]");
+const grantAccessBtn = document.querySelector("[data-grantAccessBtn]");
+const hourlyWeather = document.querySelector("[data-hourlyWeather]");
+
 
 
 const APIKEY = "681a519968834de490b44801242804";
+
+getfromSessionStorage();
 
 
 function loaddingOnHomeScreen(currState) {
@@ -36,7 +44,7 @@ function loaddingOnHomeScreen(currState) {
 }
 
 
-async function currentWeather(coordinates) {
+async function currWeather(coordinates) {
     // Weather api to find the current weather of a particular location
 
     const { lat, lon } = coordinates;
@@ -45,12 +53,12 @@ async function currentWeather(coordinates) {
 
     try {
 
-        const response = await fetch(`http://api.weatherapi.com/v1/current.json?key=${APIKEY}&q=${lat},${lon}`);
-
+        const response = await fetch(`http://api.weatherapi.com/v1/forecast.json?key=${APIKEY}&q=${lat},${lon}`);
+        
         const currWeatherdata = await response.json();
 
         loaddingOnHomeScreen("remove");
-        showWeather(currWeatherdata);
+        showCurrWeather(currWeatherdata);
 
         console.log("Weather data -> ", currWeatherdata);
         console.log("Current temperature : ", currWeatherdata?.current?.temp_c);
@@ -62,7 +70,7 @@ async function currentWeather(coordinates) {
     }
 };
 
-function showWeather(weatherdata) {
+function showCurrWeather(weatherdata) {
     if (weatherdata?.location?.name.length > 10) {
         locationName.classList.remove("text-7xl");
         locationName.classList.add("text-5xl");
@@ -89,7 +97,35 @@ function showWeather(weatherdata) {
     currWindspeed.innerText = weatherdata?.current?.wind_kph;
     currCloudiness.innerText = weatherdata?.current?.cloud;
     currHumidity.innerText = weatherdata?.current?.humidity;
+    currentDayLowTemp.innerHTML = `${Math.round(weatherdata?.forecast?.forecastday[0]?.day?.maxtemp_c)}&#8451;`;
+    currentDayHighTemp.innerHTML = `${Math.round(weatherdata?.forecast?.forecastday[0]?.day?.mintemp_c)}&#8451;`;
 }
+
+function showHourlyWeather(weatherdata){
+
+    const hourlyDiv = document.createElement("div");
+
+    hourlyDiv.classList.add("text-lg", "flex", "justify-between", "h-20", "items-center", "w-full", "bg-lightBlue", "bg-opacity-20", "rounded-xl", "px-8", "shadow-[inset_-4px_-4px_8.0px_0.0px_rgba(0,0,0,0.38)]")
+
+}
+
+
+function getfromSessionStorage() {
+
+    const localCoordinates = sessionStorage.getItem("user-coordinates");
+    
+    if(!localCoordinates) {
+        mainHomeScreen.classList.remove("grid");
+        mainHomeScreen.classList.add("hidden");
+        grantLocation.classList.remove("hidden");
+        grantLocation.classList.add("flex");
+    }
+    else {
+        const coordinates = JSON.parse(localCoordinates);
+        // currWeather(coordinates);
+    }
+}
+
 
 function getLocation() {
     if (navigator.geolocation) {
@@ -105,7 +141,6 @@ function getLocation() {
 }
 
 function showPosition(position) {
-
     loaddingOnHomeScreen("remove");
 
     const userCoordinates = {
@@ -114,7 +149,7 @@ function showPosition(position) {
     }
 
     sessionStorage.setItem("user-coordinates", JSON.stringify(userCoordinates));
-    currentWeather(userCoordinates);
+    // currWeather(userCoordinates);
 }
 
 
@@ -218,7 +253,7 @@ searchBtn.addEventListener("click", () => {
 
     if (searchInput.value.length > 2) {
 
-        currentWeather();
+        currWeather();
         showSearchSuggestions(-1, []);
         searchInput.value = "";
 
@@ -226,3 +261,13 @@ searchBtn.addEventListener("click", () => {
 });
 
 
+grantAccessBtn.addEventListener('click', ()=>{
+
+    grantLocation.classList.remove("flex");
+    grantLocation.classList.add("hidden");
+    mainHomeScreen.classList.remove("hidden");
+    mainHomeScreen.classList.add("grid");
+
+    getLocation();
+
+})
