@@ -11,15 +11,37 @@ const currWindspeed = document.querySelector("[data-currWindspeed]");
 const currCloudiness = document.querySelector("[data-currCloudiness]");
 const currHumidity = document.querySelector("[data-currHumidity]");
 const loadingScreen = document.querySelector("[data-loadingScreen]");
+const mainHomeScreen = document.querySelector("[data-mainHomeScreen]");
 
 
 const APIKEY = "681a519968834de490b44801242804";
 
 
+function loaddingOnHomeScreen(currState) {
+
+    if (currState == "add"){
+
+        mainHomeScreen.classList.remove("grid");
+        mainHomeScreen.classList.add("hidden");
+        loadingScreen.classList.remove("hidden");
+        loadingScreen.classList.add("flex");
+        
+    }
+    else if (currState == "remove"){
+        loadingScreen.classList.remove("flex");
+        loadingScreen.classList.add("hidden");
+        mainHomeScreen.classList.remove("hidden");
+        mainHomeScreen.classList.add("grid");
+    }
+}
+
+
 async function currentWeather(coordinates) {
     // Weather api to find the current weather of a particular location
 
-    const {lat, lon} = coordinates;
+    const { lat, lon } = coordinates;
+
+    loaddingOnHomeScreen("add");
 
     try {
 
@@ -27,6 +49,7 @@ async function currentWeather(coordinates) {
 
         const currWeatherdata = await response.json();
 
+        loaddingOnHomeScreen("remove");
         showWeather(currWeatherdata);
 
         console.log("Weather data -> ", currWeatherdata);
@@ -34,24 +57,26 @@ async function currentWeather(coordinates) {
 
     } catch (error) {
         console.log("Error Occured : ", error);
+        alert("Sorry!!, not able to get Weather");
+        loaddingOnHomeScreen("remove");
     }
 };
 
-function showWeather(weatherdata){
-    if (weatherdata?.location?.name.length > 10){
+function showWeather(weatherdata) {
+    if (weatherdata?.location?.name.length > 10) {
         locationName.classList.remove("text-7xl");
         locationName.classList.add("text-5xl");
     }
-    else if (weatherdata?.location?.name.length > 15){
+    else if (weatherdata?.location?.name.length > 15) {
         locationName.classList.remove("text-5xl");
         locationName.classList.add("text-2xl");
     }
 
-    if (weatherdata?.location?.region.length + weatherdata?.location?.country.length > 30){
+    if (weatherdata?.location?.region.length + weatherdata?.location?.country.length > 30) {
         locationRegion.classList.remove("text-2xl");
         locationRegion.classList.add("text-xl");
     }
-    else if (weatherdata?.location?.region.length + weatherdata?.location?.country.length > 40){
+    else if (weatherdata?.location?.region.length + weatherdata?.location?.country.length > 40) {
         locationRegion.classList.remove("text-xl");
         locationRegion.classList.add("text-lg");
     }
@@ -67,16 +92,21 @@ function showWeather(weatherdata){
 }
 
 function getLocation() {
-    if(navigator.geolocation) {
+    if (navigator.geolocation) {
+        loaddingOnHomeScreen("add");
         navigator.geolocation.getCurrentPosition(showPosition);
+        
     }
     else {
         alert(`Sorry, not able get your Location,
         Search for your City!!!`);
+        loaddingOnHomeScreen("remove");
     }
 }
 
 function showPosition(position) {
+
+    loaddingOnHomeScreen("remove");
 
     const userCoordinates = {
         lat: position.coords.latitude,
@@ -187,7 +217,7 @@ searchBar.addEventListener("click", () => {
 searchBtn.addEventListener("click", () => {
 
     if (searchInput.value.length > 2) {
-        
+
         currentWeather();
         showSearchSuggestions(-1, []);
         searchInput.value = "";
