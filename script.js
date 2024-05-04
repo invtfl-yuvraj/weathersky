@@ -4,39 +4,87 @@ const searchBtn = document.querySelector("[data-searchBtn]");
 const searchSuggest = document.querySelector("[data-searchSuggest]");
 const locationName = document.querySelector("[data-locationName]");
 const locationRegion = document.querySelector("[data-locationRegion]");
-const weatherCondition = document.querySelector("[data-weatherCondition]");
+const currWeatherCondition = document.querySelector("[data-currWeatherCondition]");
 const currentTemp = document.querySelector("[data-currentTemp]");
 const feelsLike = document.querySelector("[data-feelsLike]");
+const currWindspeed = document.querySelector("[data-currWindspeed]");
+const currCloudiness = document.querySelector("[data-currCloudiness]");
+const currHumidity = document.querySelector("[data-currHumidity]");
+const loadingScreen = document.querySelector("[data-loadingScreen]");
+
 
 const APIKEY = "681a519968834de490b44801242804";
 
 
-async function currentWeather() {
+async function currentWeather(coordinates) {
     // Weather api to find the current weather of a particular location
 
+    const {lat, lon} = coordinates;
+
     try {
-        let cityName = searchInput.value;
 
-        const response = await fetch(`http://api.weatherapi.com/v1/current.json?key=${APIKEY}&q=${cityName}`);
+        const response = await fetch(`http://api.weatherapi.com/v1/current.json?key=${APIKEY}&q=${lat},${lon}`);
 
-        const data = await response.json();
+        const currWeatherdata = await response.json();
 
-        showWeather(data);
+        showWeather(currWeatherdata);
 
-        console.log("Weather data -> ", data);
-        console.log("Current temperature : ", data.current.temp_c);
+        console.log("Weather data -> ", currWeatherdata);
+        console.log("Current temperature : ", currWeatherdata?.current?.temp_c);
 
     } catch (error) {
         console.log("Error Occured : ", error);
     }
 };
 
-function showWeather(data){
-    locationName.textContent = data.location.name;
-    locationRegion.textContent = `${data.location.region}, ${data.location.country}`;
-    weatherCondition.textContent = data.current.condition.text;
-    currentTemp.innerHTML = `${Math.round(data.current.temp_c)}&#8451;`;
-    feelsLike.innerHTML = `${Math.round(data.current.feelslike_c)}&#8451;`;
+function showWeather(weatherdata){
+    if (weatherdata?.location?.name.length > 10){
+        locationName.classList.remove("text-7xl");
+        locationName.classList.add("text-5xl");
+    }
+    else if (weatherdata?.location?.name.length > 15){
+        locationName.classList.remove("text-5xl");
+        locationName.classList.add("text-2xl");
+    }
+
+    if (weatherdata?.location?.region.length + weatherdata?.location?.country.length > 30){
+        locationRegion.classList.remove("text-2xl");
+        locationRegion.classList.add("text-xl");
+    }
+    else if (weatherdata?.location?.region.length + weatherdata?.location?.country.length > 40){
+        locationRegion.classList.remove("text-xl");
+        locationRegion.classList.add("text-lg");
+    }
+
+    locationName.textContent = weatherdata?.location?.name;
+    locationRegion.textContent = `${weatherdata?.location?.region}, ${weatherdata?.location?.country}`;
+    currWeatherCondition.textContent = weatherdata?.current?.condition?.text;
+    currentTemp.innerHTML = `${Math.round(weatherdata?.current?.temp_c)}&#8451;`;
+    feelsLike.innerHTML = `${Math.round(weatherdata?.current?.feelslike_c)}&#8451;`;
+    currWindspeed.innerText = weatherdata?.current?.wind_kph;
+    currCloudiness.innerText = weatherdata?.current?.cloud;
+    currHumidity.innerText = weatherdata?.current?.humidity;
+}
+
+function getLocation() {
+    if(navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(showPosition);
+    }
+    else {
+        alert(`Sorry, not able get your Location,
+        Search for your City!!!`);
+    }
+}
+
+function showPosition(position) {
+
+    const userCoordinates = {
+        lat: position.coords.latitude,
+        lon: position.coords.longitude,
+    }
+
+    sessionStorage.setItem("user-coordinates", JSON.stringify(userCoordinates));
+    currentWeather(userCoordinates);
 }
 
 
