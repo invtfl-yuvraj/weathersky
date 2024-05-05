@@ -11,21 +11,25 @@ const currWindspeed = document.querySelector("[data-currWindspeed]");
 const currCloudiness = document.querySelector("[data-currCloudiness]");
 const currHumidity = document.querySelector("[data-currHumidity]");
 const loadingScreen = document.querySelector("[data-loadingScreen]");
+const loadingHourlyScreen = document.querySelector("[data-loadingHourlyScreen]");
 const mainHomeScreen = document.querySelector("[data-mainHomeScreen]");
 const currentDayLowTemp = document.querySelector("[data-currentDayLowTemp]");
 const currentDayHighTemp = document.querySelector("[data-currentDayHighTemp]");
 const grantLocation = document.querySelector("[data-grantLocation]");
 const grantAccessBtn = document.querySelector("[data-grantAccessBtn]");
 const hourlyWeather = document.querySelector("[data-hourlyWeather]");
+// const hourlyWeather = document.querySelector("[data-hourlyWeather]");
 
 
 
 const APIKEY = "681a519968834de490b44801242804";
 
+let hourlyTargetdivNumber;
+
 getfromSessionStorage();
 
 
-function loaddingOnHomeScreen(currState) {
+function loadingOnHomeScreen(currState) {
 
     if (currState == "add") {
 
@@ -43,13 +47,30 @@ function loaddingOnHomeScreen(currState) {
     }
 }
 
+function loadingOnHourlyScreen(currState) {
+    if (currState == "add") {
+
+        hourlyWeather.classList.remove("flex");
+        hourlyWeather.classList.add("hidden");
+        loadingHourlyScreen.classList.remove("hidden");
+        loadingHourlyScreen.classList.add("flex");
+
+    }
+    else if (currState == "remove") {
+        loadingHourlyScreen.classList.remove("flex");
+        loadingHourlyScreen.classList.add("hidden");
+        hourlyWeather.classList.remove("hidden");
+        hourlyWeather.classList.add("flex");
+    }
+}
+
 
 async function currWeather(coordinates) {
     // Weather api to find the current weather of a particular location
 
     const { lat, lon } = coordinates;
 
-    loaddingOnHomeScreen("add");
+    loadingOnHomeScreen("add");
 
     try {
 
@@ -57,9 +78,12 @@ async function currWeather(coordinates) {
 
         const currWeatherdata = await response.json();
 
-        loaddingOnHomeScreen("remove");
+        loadingOnHomeScreen("remove");
         showCurrWeather(currWeatherdata);
         showHourlyWeather(currWeatherdata);
+        setTimeout(()=>{
+            showHourlyFocus();
+        }, 500);
 
         console.log("Weather data -> ", currWeatherdata);
         console.log("Current temperature : ", currWeatherdata?.current?.temp_c);
@@ -67,9 +91,11 @@ async function currWeather(coordinates) {
     } catch (error) {
         console.log("Error Occured : ", error);
         alert("Sorry!!, not able to get Weather");
-        loaddingOnHomeScreen("remove");
+        loadingOnHomeScreen("remove");
     }
 };
+
+
 
 function showCurrWeather(weatherdata) {
     if (weatherdata?.location?.name.length > 10) {
@@ -80,6 +106,11 @@ function showCurrWeather(weatherdata) {
         locationName.classList.remove("text-5xl");
         locationName.classList.add("text-2xl");
     }
+    else {
+        if (locationName.classList.contains("text-5xl")) locationName.classList.remove("text-5xl");
+        if (locationName.classList.contains("text-2xl")) locationName.classList.remove("text-2xl");
+        if (!locationName.classList.contains("text-7xl")) locationName.classList.add("text-7xl");
+    }
 
     if (weatherdata?.location?.region.length + weatherdata?.location?.country.length > 30) {
         locationRegion.classList.remove("text-2xl");
@@ -88,6 +119,11 @@ function showCurrWeather(weatherdata) {
     else if (weatherdata?.location?.region.length + weatherdata?.location?.country.length > 40) {
         locationRegion.classList.remove("text-xl");
         locationRegion.classList.add("text-lg");
+    }
+    else {
+        if (locationRegion.classList.contains("text-xl")) locationRegion.classList.remove("text-xl");
+        if (locationRegion.classList.contains("text-lg")) locationRegion.classList.remove("text-lg");
+        if (!locationRegion.classList.contains("text-2xl")) locationRegion.classList.add("text-2xl");
     }
 
     locationName.textContent = weatherdata?.location?.name;
@@ -104,61 +140,140 @@ function showCurrWeather(weatherdata) {
 
 function showHourlyWeather(weatherdata) {
 
-    for (let i = 0; i < 24; i++) {
+    while (hourlyWeather.firstChild) {
+        hourlyWeather.removeChild(hourlyWeather.firstChild);
+    }
+
+    loadingOnHourlyScreen("add");
+
+
+    for (let i = 0; i < 24; i++){
 
         const hourlyDiv = document.createElement("div");
-        hourlyDiv.classList.add("text-lg", "flex", "justify-between", "h-20", "items-center", "w-full", "bg-lightBlue", "bg-opacity-20", "rounded-xl", "px-8", "shadow-[inset_-4px_-4px_8.0px_0.0px_rgba(0,0,0,0.38)]");
+        hourlyDiv.classList.add("text-lg", "flex", "justify-between", "h-20", "items-center", "w-full", "bg-lightBlue", "bg-opacity-20", "rounded-xl", "px-8", "shadow-[inset_-4px_-4px_8.0px_0.0px_rgba(0,0,0,0.38)]", `hour-${i}`);
 
         try {
 
+            // creating a div for time data and a para in it
+            const timeDiv = document.createElement("div");
+            timeDiv.classList.add("w-24", "text-center");
+
             const timePara = document.createElement("p");
-            hourlyTime = weatherdata?.forecast?.forecastday[0]?.hour[i]?.time.split(' ')[1];
-            if (hourlyTime.split(":")[0]<12){
+            let hourlyTime = weatherdata?.forecast?.forecastday[0]?.hour[i]?.time.split(' ')[1];
+            if (hourlyTime.split(":")[0] < 12) {
                 timePara.innerText = `${hourlyTime}AM`;
             }
+            else if (hourlyTime.split(":")[0] == 12){
+                timePara.innerText = `${hourlyTime}PM`;
+            }
             else {
-                const afterNoonTime = ()=>{
+                const afterNoonTime = () => {
 
-                    if (hourlyTime.split(":")[0]-12 < 10){
-                        return `0${hourlyTime.split(":")[0]-12}:00PM`;
+                    if (hourlyTime.split(":")[0] - 12 < 10) {
+                        return `0${hourlyTime.split(":")[0] - 12}:00PM`;
                     }
                     else {
-                        return `${hourlyTime.split(":")[0]-12}:00PM`;
+                        return `${hourlyTime.split(":")[0] - 12}:00PM`;
                     }
                 }
-
                 timePara.innerText = afterNoonTime();
             }
-            hourlyDiv.appendChild(timePara);
+            timeDiv.appendChild(timePara);
+            hourlyDiv.appendChild(timeDiv);
+
+
+            // creating a div for temperature data and a para in it
+            const tempDiv = document.createElement("div");
+            tempDiv.classList.add("w-16", "text-center");
 
             const tempPara = document.createElement("p");
             tempPara.innerHTML = `${Math.round(weatherdata?.forecast?.forecastday[0]?.hour[i]?.temp_c)}<span>&#8451;</span>`;
-            hourlyDiv.appendChild(tempPara);
+            tempDiv.appendChild(tempPara);
+            hourlyDiv.appendChild(tempDiv);
+
+
+            // creating a div for cloudiness data and a para in it
+            const cloudinessDiv = document.createElement("div");
+            cloudinessDiv.classList.add("w-16", "text-center");
 
             const cloudinessPara = document.createElement("p");
             cloudinessPara.innerText = `${weatherdata?.forecast?.forecastday[0]?.hour[i]?.cloud}%`;
-            hourlyDiv.appendChild(cloudinessPara);
+            cloudinessDiv.appendChild(cloudinessPara);
+            hourlyDiv.appendChild(cloudinessDiv);
 
+
+            // creating a img to show weather state
             const weatherStateImg = document.createElement("img");
             weatherStateImg.classList.add("w-16", "aspect-square");
             weatherStateImg.src = "./assets/weather_states/Mostly Clear.png";
             hourlyDiv.appendChild(weatherStateImg);
 
+
         } catch (error) {
             const hourlyError = document.createElement("p");
-            hourlyError.innerText  = "Something went wrong..";
+            hourlyError.innerText = "Something went wrong..";
             hourlyError.classList.add("py-4");
             hourlyDiv.appendChild(hourlyError);
             hourlyDiv.classList.remove("justify-between");
             hourlyDiv.classList.add("justify-center");
 
             console.log("Error in hourly data input : ", error);
-            
         }
 
+        // adding all hours data one by one
         hourlyWeather.appendChild(hourlyDiv);
     }
 
+    loadingOnHourlyScreen("remove");
+    hourlyTargetdivNumber = hourlyTargetDivNum(weatherdata);
+
+}
+
+function hourlyTargetDivNum(weatherdata) {
+    const currentTime = `${weatherdata?.current?.last_updated.split(' ')[1].split(":")[0]}:00`;
+
+    for (let i = 0; i < 24; i++) {
+        const hourlyTime = weatherdata?.forecast?.forecastday[0]?.hour[i]?.time.split(' ')[1];
+        console.log(hourlyTime);
+        console.log(currentTime);
+
+        if (hourlyTime == currentTime) {
+
+            const targetDiv = `.hour-${i}`;
+            return targetDiv;
+        }
+    }
+}
+
+function showHourlyFocus() {
+    console.log(hourlyTargetdivNumber);
+
+    const targetDiv = document.querySelector(hourlyTargetdivNumber);
+    targetDiv.classList.remove("bg-opacity-20");
+    targetDiv.classList.add("customHourlyAnimation");
+
+    // Calculate the position of the target div relative to the main container
+    const containerRect = hourlyWeather.getBoundingClientRect();
+    const targetRect = targetDiv.getBoundingClientRect();
+
+
+    // Check if the target div is already in view
+    if (!isElementInViewport(targetRect, containerRect)) {
+
+        const scrollTop = targetRect.top - containerRect.top + hourlyWeather.scrollTop - (containerRect.height - targetRect.height) / 2;
+
+        // Scroll the main container to the calculated position
+        hourlyWeather.scrollTo({ top: scrollTop, behavior: 'smooth' });
+    }
+
+    function isElementInViewport(targetRect, containerRect) {
+        return (
+            targetRect.top >= containerRect.top &&
+            targetRect.left >= containerRect.left &&
+            targetRect.bottom <= containerRect.bottom &&
+            targetRect.right <= containerRect.right
+        );
+    }
 }
 
 
@@ -174,26 +289,26 @@ function getfromSessionStorage() {
     }
     else {
         const coordinates = JSON.parse(localCoordinates);
-        // currWeather(coordinates);
+        currWeather(coordinates);
     }
 }
 
 
 function getLocation() {
     if (navigator.geolocation) {
-        loaddingOnHomeScreen("add");
+        loadingOnHomeScreen("add");
         navigator.geolocation.getCurrentPosition(showPosition);
 
     }
     else {
         alert(`Sorry, not able get your Location,
         Search for your City!!!`);
-        loaddingOnHomeScreen("remove");
+        loadingOnHomeScreen("remove");
     }
 }
 
 function showPosition(position) {
-    loaddingOnHomeScreen("remove");
+    loadingOnHomeScreen("remove");
 
     const userCoordinates = {
         lat: position.coords.latitude,
@@ -201,7 +316,7 @@ function showPosition(position) {
     }
 
     sessionStorage.setItem("user-coordinates", JSON.stringify(userCoordinates));
-    // currWeather(userCoordinates);
+    currWeather(userCoordinates);
 }
 
 
@@ -305,7 +420,7 @@ searchBtn.addEventListener("click", () => {
 
     if (searchInput.value.length > 2) {
 
-        currWeather();
+        cityWeather(searchInput.value);
         showSearchSuggestions(-1, []);
         searchInput.value = "";
 
@@ -322,4 +437,16 @@ grantAccessBtn.addEventListener('click', () => {
 
     getLocation();
 
-})
+});
+
+const handleScroll = debounce(() => {
+    showHourlyFocus();
+    console.log('Input value:', searchInput.value);
+}, 3000);
+
+
+hourlyWeather.addEventListener("scroll", ()=>{
+   handleScroll();
+});
+
+
