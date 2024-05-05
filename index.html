@@ -23,6 +23,22 @@
         .no-scrollbar::-webkit-scrollbar {
             display: none;
         }
+
+        @keyframes bgOpacityTransition {
+            0% {
+                background-color: rgb(0, 102, 255, 0.2);
+                /* Initial background color with opacity 0.2 */
+            }
+
+            100% {
+                background-color: rgb(0, 102, 255, 1);
+                /* Final background color with opacity 1 */
+            }
+        }
+
+        .customHourlyAnimation {
+            animation: bgOpacityTransition 1700ms ease-out infinite alternate;
+        }
     </style>
 
 </head>
@@ -49,26 +65,33 @@
             <!-- Search bar creation -->
 
             <div class="relative w-1/4 rounded-xl">
+                <div class="flex justify-between gap-2">
+                    <div class="w-full bg-lightBlue flex justify-between items-center rounded-xl rounded-tl-xl rounded-tr-xl  p-2 px-4 cursor-pointer shadow-[inset_-4px_-4px_8.0px_0.0px_rgba(0,0,0,0.38)] bg-opacity-50"
+                        data-searchBar>
 
-                <div class="w-full bg-lightBlue flex justify-between items-center rounded-xl rounded-tl-xl rounded-tr-xl  p-2 px-4 cursor-pointer shadow-[inset_-4px_-4px_8.0px_0.0px_rgba(0,0,0,0.38)] bg-opacity-50"
-                    data-searchBar>
+                        <input class="bg-transparent text-white outline-none placeholder-white" type="text"
+                            placeholder="Search for cities..." data-searchInput>
 
-                    <input class="bg-transparent text-white outline-none placeholder-white" type="text" placeholder="Search for cities..."
-                        data-searchInput>
+                        <!-- search button -->
+                        <svg class="invert" xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="20" height="20" viewBox="0 0 50 50"
+                            data-searchBtn>
+                            <path
+                                d="M 21 3 C 11.621094 3 4 10.621094 4 20 C 4 29.378906 11.621094 37 21 37 C 24.710938 37 28.140625 35.804688 30.9375 33.78125 L 44.09375 46.90625 L 46.90625 44.09375 L 33.90625 31.0625 C 36.460938 28.085938 38 24.222656 38 20 C 38 10.621094 30.378906 3 21 3 Z M 21 5 C 29.296875 5 36 11.703125 36 20 C 36 28.296875 29.296875 35 21 35 C 12.703125 35 6 28.296875 6 20 C 6 11.703125 12.703125 5 21 5 Z">
+                            </path>
+                        </svg>
 
-                    <!-- search button -->
-                    <svg class="invert" xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="20" height="20" viewBox="0 0 50 50" data-searchBtn>
-                        <path
-                            d="M 21 3 C 11.621094 3 4 10.621094 4 20 C 4 29.378906 11.621094 37 21 37 C 24.710938 37 28.140625 35.804688 30.9375 33.78125 L 44.09375 46.90625 L 46.90625 44.09375 L 33.90625 31.0625 C 36.460938 28.085938 38 24.222656 38 20 C 38 10.621094 30.378906 3 21 3 Z M 21 5 C 29.296875 5 36 11.703125 36 20 C 36 28.296875 29.296875 35 21 35 C 12.703125 35 6 28.296875 6 20 C 6 11.703125 12.703125 5 21 5 Z">
-                        </path>
-                    </svg>
-
+                    </div>
+                    <div class="w-12 aspect-square hidden" data-locationIcon>
+                        <img class="object-cover" src="./assets/location.png" alt="" height="50" width="50">
+                    </div>
                 </div>
-                <div class="absolute bg-lightBlue w-full top-10 rounded-bl-xl rounded-br-xl shadow-[inset_-4px_-4px_8.0px_0.0px_rgba(0,0,0,0.38)] flex flex-col justify-between " data-searchSuggest>
-                  
+
+                <div class="absolute bg-lightBlue w-full top-10 rounded-bl-xl rounded-br-xl shadow-[inset_-4px_-4px_8.0px_0.0px_rgba(0,0,0,0.38)] flex flex-col justify-between "
+                    data-searchSuggest>
+
                     <!-- <div class="p-4 text-white hover:bg-blue-800 rounde">Farrukhnagar, Andhra Pradesh, India</div>
                     <div class="p-4 text-white hover:bg-blue-800 rounde">Farrukhnagar, Andhra Pradesh, India</div> -->
-               
+
                 </div>
 
             </div>
@@ -90,24 +113,27 @@
 
             <div class="absolute blur-custom w-[382px] aspect-square bg-lightPink bg-opacity-40 rounded-full -bottom-[15rem] -left-[10rem]">
             </div>
-            <div class="absolute blur-custom w-[382px] aspect-square bg-lightBlue bg-opacity-40 rounded-full -bottom-[15rem] -right-[10rem]">
+            <div
+                class="absolute blur-custom w-[382px] aspect-square bg-lightBlue bg-opacity-40 rounded-full -bottom-[15rem] -right-[10rem]">
             </div>
 
-             <!--- loading screen container -->
-            <div class="loading-container mx-40 text-white h-5/6 flex-col justify-center items-center hidden" data-loadingScreen>
+            <!--- loading screen main home page-->
+            <div class="hidden mx-40 text-white h-5/6 flex-col justify-center items-center " data-loadingScreen>
                 <img src="./assets/loading.gif" width="300" height="300">
-                <p class="font-bold text-5xl">Loading</p>
+                <p class="font-bold text-5xl pl-8">Loading...</p>
             </div>
 
             <!-- grant location container-->
-            <div class="grant-location-container mx-40 text-white h-5/6 flex-col justify-center items-center hidden">
-                <img src="./assets/location.png" width="80" height="80" loading="lazy">
-                <p>Grant Location Access</p>
-                <p>Allow Access to get weather Information</p>
-                <button class="btn" data-grantAccess>Grant Access</button>
+            <div class="grant-location-container mx-40 text-white h-5/6 flex-col justify-center items-center hidden" data-grantLocation>
+                <img src="./assets/location.png" width="150" height="150" loading="lazy">
+                <p class="pt-4 text-5xl">Grant Location Access</p>
+                <p class="pt-2">Allow Access to get weather Information</p>
+                <button
+                    class="mt-6 w-1/4 p-4 bg-lightBlue text-2xl text-center rounded-xl cursor-pointer shadow-[inset_-4px_-4px_8.0px_0.0px_rgba(0,0,0,0.38)] bg-opacity-50 hover:bg-opacity-100"
+                    data-grantAccessBtn>Grant Access</button>
             </div>
 
-            <div class="main grid-rows-1 grid grid-cols-2 mx-40 text-white h-5/6 pt-24 gap-20">
+            <div class="main grid-rows-1 grid grid-cols-2 mx-40 text-white h-5/6 pt-24 gap-20" data-mainHomeScreen>
                 <!-- location weather -->
                 <div class="flex flex-col justify-between pr-20">
                     <!-- location  -->
@@ -122,15 +148,15 @@
                         <div class="flex flex-col gap-2">
                             <h3 class="text-3xl text-cyan" data-currWeatherCondition>Mostly Clear</h3>
                             <div class="">
-                                <h2 class="text-7xl" ><span data-currentTemp>35&#8451;</span></h2>
+                                <h2 class="text-7xl"><span data-currentTemp>35&#8451;</span></h2>
                                 <h3 class="">Feels like <span data-feelsLike>45&#8451;</span> </h3>
                             </div>
 
                             <div class="grid grid-rows-2 grid-cols-2">
                                 <div class="text-cyan">Low</div>
                                 <div class="text-cyan">High</div>
-                                <div class=""><span>35&#8451;</span></div>
-                                <div class=""><span>45&#8451;</span></div>
+                                <div class=""><span data-currentDayHighTemp>35&#8451;</span></div>
+                                <div class=""><span data-currentDayLowTemp>45&#8451;</span></div>
                             </div>
                         </div>
                         <div class="relative w-52 aspect-square ">
@@ -144,7 +170,7 @@
                         <div class="flex justify-between items-center flex-col gap-4">
                             <h4>Wind</h4>
                             <img class="w-20" src="./assets/Wind.png" alt="">
-                            <p class="text-cyan"><span data-currWindspeed>10</span>km/h</p>
+                            <p class="text-cyan"><span data-currWindspeed>10</span> km/h</p>
                         </div>
                         <div class="flex justify-between items-center flex-col gap-4">
                             <h4>Cloudiness</h4>
@@ -178,107 +204,25 @@
                                 10days</div>
                         </div>
                     </div>
-                    <div class="flex flex-col justify-between items-center h-5/6 gap-4 overflow-y-scroll no-scrollbar">
+                    <!--- loading screen -->
+                    <div class="hidden h-4/6 text-white flex-col justify-center items-center w-full" data-loadingHourlyScreen>
+                        <img src="./assets/loading.gif" width="150" height="150">
+                        <p class="font-bold text-3xl pl-6">Loading...</p>
+                    </div>
 
-                        <div
-                            class="text-lg flex justify-between h-20 items-center w-full bg-lightBlue bg-opacity-20 rounded-xl px-8 shadow-[inset_-4px_-4px_8.0px_0.0px_rgba(0,0,0,0.38)]">
-                            <p class="py-4">12:00AM</p>
+                    <!-- hourly data -->
+                    <div class="flex flex-col justify-between items-center h-5/6 gap-4 overflow-y-scroll no-scrollbar" data-hourlyWeather>
+
+                        <!-- <div
+                            class="text-lg flex justify-between h-20 items-center bg-lightBlue bg-opacity-20 w-full rounded-xl px-8 shadow-[inset_-4px_-4px_8.0px_0.0px_rgba(0,0,0,0.38)] customHourlyAnimation">
+                            <div class="px-2">
+
+                                <p class="py-4">12:00AM</p>
+                            </div>
                             <p class="">35<span>&#8451;</span></p>
                             <p class="">0%</p>
                             <img class="w-14 aspect-square" src="./assets/weather_states/Mostly Clear.png" alt="">
-                        </div>
-                        <div
-                            class="text-lg flex justify-between items-center h-20 w-full bg-lightBlue bg-opacity-20 rounded-xl px-8 shadow-[inset_-4px_-4px_8.0px_0.0px_rgba(0,0,0,0.38)]">
-                            <p class="">12:00PM</p>
-                            <p class="">35<span>&#8451;</span></p>
-                            <p class="">0%</p>
-                            <img class="w-14 aspect-square" src="./assets/weather_states/Heavy Rain.png" alt="">
-                        </div>
-                        <div
-                            class="text-lg flex justify-between items-center h-20 w-full bg-lightBlue bg-opacity-20 rounded-xl px-8 shadow-[inset_-4px_-4px_8.0px_0.0px_rgba(0,0,0,0.38)]">
-                            <p class="">12:00PM</p>
-                            <p class="">35<span>&#8451;</span></p>
-                            <p class="">0%</p>
-                            <img class="w-14 aspect-square" src="./assets/weather_states/Snow.png" alt="">
-                        </div>
-                        <div
-                            class="text-lg flex justify-between items-center h-20 w-full bg-lightBlue bg-opacity-20 rounded-xl px-8 shadow-[inset_-4px_-4px_8.0px_0.0px_rgba(0,0,0,0.38)]">
-                            <p class="">12:00PM</p>
-                            <p class="">35<span>&#8451;</span></p>
-                            <p class="">0%</p>
-                            <img class="w-14 aspect-square" src="./assets/weather_states/Heavy Thunderstorm.png" alt="">
-                        </div>
-                        <div
-                            class="text-lg flex justify-between items-center h-20 w-full bg-lightBlue bg-opacity-20 rounded-xl px-8 shadow-[inset_-4px_-4px_8.0px_0.0px_rgba(0,0,0,0.38)]">
-                            <p class="">12:00PM</p>
-                            <p class="">35<span>&#8451;</span></p>
-                            <p class="">0%</p>
-                            <img class="w-14 aspect-square" src="./assets/weather_states/Heavy Thunderstorm.png" alt="">
-                        </div>
-                        <div
-                            class="text-lg flex justify-between items-center h-20 w-full bg-lightBlue bg-opacity-20 rounded-xl px-8 shadow-[inset_-4px_-4px_8.0px_0.0px_rgba(0,0,0,0.38)]">
-                            <p class="">12:00PM</p>
-                            <p class="">35<span>&#8451;</span></p>
-                            <p class="">0%</p>
-                            <img class="w-14 aspect-square" src="./assets/weather_states/Heavy Thunderstorm.png" alt="">
-                        </div>
-                        <div
-                            class="text-lg flex justify-between items-center h-20 w-full bg-lightBlue bg-opacity-20 rounded-xl px-8 shadow-[inset_-4px_-4px_8.0px_0.0px_rgba(0,0,0,0.38)]">
-                            <p class="">12:00PM</p>
-                            <p class="">35<span>&#8451;</span></p>
-                            <p class="">0%</p>
-                            <img class="w-14 aspect-square" src="./assets/weather_states/Heavy Thunderstorm.png" alt="">
-                        </div>
-                        <div
-                            class="text-lg flex justify-between items-center h-20 w-full bg-lightBlue bg-opacity-20 rounded-xl px-8 shadow-[inset_-4px_-4px_8.0px_0.0px_rgba(0,0,0,0.38)]">
-                            <p class="">12:00PM</p>
-                            <p class="">35<span>&#8451;</span></p>
-                            <p class="">0%</p>
-                            <img class="w-14 aspect-square" src="./assets/weather_states/Heavy Thunderstorm.png" alt="">
-                        </div>
-                        <div
-                            class="text-lg flex justify-between items-center h-20 w-full bg-lightBlue bg-opacity-20 rounded-xl px-8 shadow-[inset_-4px_-4px_8.0px_0.0px_rgba(0,0,0,0.38)]">
-                            <p class="">12:00PM</p>
-                            <p class="">35<span>&#8451;</span></p>
-                            <p class="">0%</p>
-                            <img class="w-14 aspect-square" src="./assets/weather_states/Heavy Thunderstorm.png" alt="">
-                        </div>
-                        <div
-                            class="text-lg flex justify-between items-center h-20 w-full bg-lightBlue bg-opacity-20 rounded-xl px-8 shadow-[inset_-4px_-4px_8.0px_0.0px_rgba(0,0,0,0.38)]">
-                            <p class="">12:00PM</p>
-                            <p class="">35<span>&#8451;</span></p>
-                            <p class="">0%</p>
-                            <img class="w-14 aspect-square" src="./assets/weather_states/Heavy Thunderstorm.png" alt="">
-                        </div>
-                        <div
-                            class="text-lg flex justify-between items-center h-20 w-full bg-lightBlue bg-opacity-20 rounded-xl px-8 shadow-[inset_-4px_-4px_8.0px_0.0px_rgba(0,0,0,0.38)]">
-                            <p class="">12:00PM</p>
-                            <p class="">35<span>&#8451;</span></p>
-                            <p class="">0%</p>
-                            <img class="w-14 aspect-square" src="./assets/weather_states/Heavy Thunderstorm.png" alt="">
-                        </div>
-                        <div
-                            class="text-lg flex justify-between items-center h-20 w-full bg-lightBlue bg-opacity-20 rounded-xl px-8 shadow-[inset_-4px_-4px_8.0px_0.0px_rgba(0,0,0,0.38)]">
-                            <p class="">12:00PM</p>
-                            <p class="">35<span>&#8451;</span></p>
-                            <p class="">0%</p>
-                            <img class="w-14 aspect-square" src="./assets/weather_states/Heavy Thunderstorm.png" alt="">
-                        </div>
-                        <div
-                            class="text-lg flex justify-between items-center h-20 w-full bg-lightBlue bg-opacity-20 rounded-xl px-8 shadow-[inset_-4px_-4px_8.0px_0.0px_rgba(0,0,0,0.38)]">
-                            <p class="">12:00PM</p>
-                            <p class="">35<span>&#8451;</span></p>
-                            <p class="">0%</p>
-                            <img class="w-14 aspect-square" src="./assets/weather_states/Heavy Thunderstorm.png" alt="">
-                        </div>
-                        <div
-                            class="text-lg flex justify-between items-center h-20 w-full bg-lightBlue bg-opacity-20 rounded-xl px-8 shadow-[inset_-4px_-4px_8.0px_0.0px_rgba(0,0,0,0.38)]">
-                            <p class="">12:00PM</p>
-                            <p class="">35<span>&#8451;</span></p>
-                            <p class="">0%</p>
-                            <img class="w-14 aspect-square" src="./assets/weather_states/Heavy Thunderstorm.png" alt="">
-                        </div>
-
+                        </div> -->
 
 
                     </div>
