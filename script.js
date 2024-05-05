@@ -95,7 +95,33 @@ async function currWeather(coordinates) {
     }
 };
 
+async function cityWeather(cityName){
 
+    loadingOnHomeScreen("add");
+
+    try {
+
+        const response = await fetch(`http://api.weatherapi.com/v1/forecast.json?key=${APIKEY}&q=${cityName}`);
+
+        const currWeatherdata = await response.json();
+
+        loadingOnHomeScreen("remove");
+        showCurrWeather(currWeatherdata);
+        showHourlyWeather(currWeatherdata);
+        setTimeout(()=>{
+            showHourlyFocus();
+        }, 500);
+
+        console.log("Weather data -> ", currWeatherdata);
+        console.log("Current temperature : ", currWeatherdata?.current?.temp_c);
+
+    } catch (error) {
+        console.log("Error Occured : ", error);
+        alert("Sorry!!, not able to get Weather");
+        loadingOnHomeScreen("remove");
+    }
+
+}
 
 function showCurrWeather(weatherdata) {
     if (weatherdata?.location?.name.length > 10) {
