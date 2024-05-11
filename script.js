@@ -23,7 +23,7 @@ const locationIcon = document.querySelector("[data-locationIcon]");
 
 const APIKEY = "681a519968834de490b44801242804";
 
-let hourlyTargetdivNumber;
+let hourlyCurrHour;
 
 getfromSessionStorage();
 if (!locationIcon.classList.contains("hidden")) locationIcon.classList.add("hidden");
@@ -81,57 +81,61 @@ function grantAccessScreen(currState) {
     }
 }
 
-function findWeatherState(weatherstate) {
+function findWeatherState(weatherdata) {
+
+    let text = weatherdata?.forecast?.forecastday[0]?.hour[hourlyCurrHour]?.condition.text;
+    console.log(text);
+    let isDay = weatherdata?.forecast?.forecastday[0]?.hour[hourlyCurrHour]?.is_day;
+    console.log(isDay);
 
     let imagePath = "";
-    text = text.trim();
 
-    (text, isDay) => {
-        if (text == "Patchy light rain" || "Patchy rain nearby" || "Patchy rain possible" || "Patchy light drizzle" || "Light drizzle" || "Moderate rain at times" || ) {
-            if (isDay) {
-                imagePath = "./assets/weather_states/Drizzle_day.png";
-            }
-            else {
-                imagePath = "./assets/weather_states/Drizzle_Night.png";
-            }
+
+    if (text == "Patchy light rain" || "Patchy rain nearby" || "Patchy rain possible" || "Patchy light drizzle" || "Light drizzle" || "Moderate rain at times") {
+        if (isDay == 1) {
+            imagePath = "./assets/weather_states/Drizzle_day.png";
         }
-        else if (tect == "Partly Cloudy") {
-            if (isDay) {
-                imagePath = "./assets/weather_states/Mostly_Clear_Night_img.png";
-            }
-            else {
-                imagePath = "./assets/weather_states/Mostly_clear.png";
-            }
-        }
-        else if (text == "Clear") {
-            imagePath = "./assets/weather_states/Clear.png";
-        }
-        else if (text == "Sunny") {
-            imagePath = "./assets/weather_states/Sunny.png";
-        }
-        else if (text == "Light rain shower" || "Light rain" || "Mist" || "Patchy freezing drizzle possible" || "Freezing drizzle" || "Heavy freezing drizzle" || "Moderate rain" || "Light freezing rain") {
-            imagePath = "./assets/weather_states/Light_Raining.png";
-        }
-        else if (text == "Heavy rain" || "Moderate or heavy rain shower" || "Torrential rain shower" || "Heavy rain at times" || "Moderate or heavy freezing rain") {
-            imagePath = "./assets/weather_states/Heavy_Raining.png";
-        }
-        else if (text == "Overcast" || "Cloudy") {
-            imagePath = "./assets/weather_states/All_Cloudy.png";
-        }
-        else if (text == "Patchy light rain in area with thunder" || "Patchy light rain with thunder" || "Patchy light snow with thunder") {
-            imagePath = "./assets/weather_states/Thunderstorm.png";
-        }
-        else if (text == "Thundery outbreaks possible" || "Thundery outbreaks in nearby" || "Moderate or heavy rain with thunder" || "Moderate or heavy snow with thunder"){
-            imagePath = "./assets/weather_states/Heavy_Thunderstorm.png";
-        }
-        else if (text == "Fog" || "Freezing fog") {
-            imagePath = "./assets/weather_states/Windy.png";
-        }
-        else if (text == "Patchy snow possible" || "Patchy sleet possible" || "Blowing snow" || "Blizzard" || "Light sleet" || "Moderate or heavy sleet" || "Patchy light snow" || "Light snow" || "Patchy moderate snow" || "Moderate snow" || "Patchy heavy snow" || "Heavy snow" || "Ice pellets" || "Light sleet showers" || "Moderate or heavy sleet showers" || "Light snow showers" || "Moderate or heavy snow showers" || "Light showers of ice pellets" || "Moderate or heavy showers of ice pellets"){
-            imagePath = "./assets/weather_states/Snow.png";
+        else {
+            imagePath = "./assets/weather_states/Drizzle_Night.png";
         }
     }
+    else if (tect == "Partly Cloudy") {
+        if (isDay == 1) {
+            imagePath = "./assets/weather_states/Mostly_Clear_Night_img.png";
+        }
+        else {
+            imagePath = "./assets/weather_states/Mostly_clear.png";
+        }
+    }
+    else if (text == "Clear") {
+        imagePath = "./assets/weather_states/Clear.png";
+    }
+    else if (text == "Sunny") {
+        imagePath = "./assets/weather_states/Sunny.png";
+    }
+    else if (text == "Light rain shower" || "Light rain" || "Mist" || "Patchy freezing drizzle possible" || "Freezing drizzle" || "Heavy freezing drizzle" || "Moderate rain" || "Light freezing rain") {
+        imagePath = "./assets/weather_states/Light_Raining.png";
+    }
+    else if (text == "Heavy rain" || "Moderate or heavy rain shower" || "Torrential rain shower" || "Heavy rain at times" || "Moderate or heavy freezing rain") {
+        imagePath = "./assets/weather_states/Heavy_Raining.png";
+    }
+    else if (text == "Overcast" || "Cloudy") {
+        imagePath = "./assets/weather_states/All_Cloudy.png";
+    }
+    else if (text == "Patchy light rain in area with thunder" || "Patchy light rain with thunder" || "Patchy light snow with thunder") {
+        imagePath = "./assets/weather_states/Thunderstorm.png";
+    }
+    else if (text == "Thundery outbreaks possible" || "Thundery outbreaks in nearby" || "Moderate or heavy rain with thunder" || "Moderate or heavy snow with thunder") {
+        imagePath = "./assets/weather_states/Heavy_Thunderstorm.png";
+    }
+    else if (text == "Fog" || "Freezing fog") {
+        imagePath = "./assets/weather_states/Windy.png";
+    }
+    else if (text == "Patchy snow possible" || "Patchy sleet possible" || "Blowing snow" || "Blizzard" || "Light sleet" || "Moderate or heavy sleet" || "Patchy light snow" || "Light snow" || "Patchy moderate snow" || "Moderate snow" || "Patchy heavy snow" || "Heavy snow" || "Ice pellets" || "Light sleet showers" || "Moderate or heavy sleet showers" || "Light snow showers" || "Moderate or heavy snow showers" || "Light showers of ice pellets" || "Moderate or heavy showers of ice pellets") {
+        imagePath = "./assets/weather_states/Snow.png";
+    }
 
+    return imagePath;
 
 }
 
@@ -303,7 +307,8 @@ function showHourlyWeather(weatherdata) {
             // creating a img to show weather state
             const weatherStateImg = document.createElement("img");
             weatherStateImg.classList.add("w-16", "aspect-square");
-            weatherStateImg.src = "./assets/weather_states/Mostly Clear.png";
+
+            weatherStateImg.src = findWeatherState(weatherdata);
             hourlyDiv.appendChild(weatherStateImg);
 
 
@@ -323,30 +328,30 @@ function showHourlyWeather(weatherdata) {
     }
 
     loadingOnHourlyScreen("remove");
-    hourlyTargetdivNumber = hourlyTargetDivNum(weatherdata);
+    hourlyCurrHour = findHourlyCurrHour(weatherdata);
 
 }
 
-function hourlyTargetDivNum(weatherdata) {
+function findHourlyCurrHour(weatherdata) {
     const currentTime = `${weatherdata?.current?.last_updated.split(' ')[1].split(":")[0]}:00`;
 
     for (let i = 0; i < 24; i++) {
         const hourlyTime = weatherdata?.forecast?.forecastday[0]?.hour[i]?.time.split(' ')[1];
-        console.log(hourlyTime);
-        console.log(currentTime);
+        // console.log(hourlyTime);
+        // console.log(currentTime);
 
         if (hourlyTime == currentTime) {
 
-            const targetDiv = `.hour-${i}`;
+            const targetDiv = i;
             return targetDiv;
         }
     }
 }
 
 function showHourlyFocus() {
-    console.log(hourlyTargetdivNumber);
+    let targetDivNum = `.hour-${hourlyCurrHour}`;
 
-    const targetDiv = document.querySelector(hourlyTargetdivNumber);
+    const targetDiv = document.querySelector(targetDivNum);
     targetDiv.classList.remove("bg-opacity-20");
     targetDiv.classList.add("customHourlyAnimation");
 
