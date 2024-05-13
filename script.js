@@ -136,8 +136,9 @@ async function cityWeather(cityName) {
 
     } catch (error) {
         console.log("Error Occured : ", error);
-        alert("Sorry!!, not able to get Weather");
+        alert("Sorry!!, not able to find Weather at this Location");
         loadingOnHomeScreen("remove");
+        getfromSessionStorage();
     }
 
     if (locationIcon.classList.contains("hidden")) locationIcon.classList.remove("hidden");
@@ -490,6 +491,7 @@ async function searchSuggestions() {
 
     } catch (error) {
         console.log("Error Occured : ", error);
+        alert("Not able to find this location");
     }
 };
 
@@ -509,7 +511,7 @@ function debounce(func, delay) {
 const handleInput = debounce(() => {
     searchSuggestions();
     console.log('Input value:', searchInput.value);
-}, 500);
+}, 800);
 
 
 function showSearchSuggestions(numOFSuggestions, data) {
@@ -530,7 +532,7 @@ function showSearchSuggestions(numOFSuggestions, data) {
         for (let i = 0; i < numOFSuggestions; i++) {
 
             const newDiv = document.createElement("div");
-            newDiv.classList.add("p-4", "text-white", "hover:bg-blue-900");
+            newDiv.classList.add("p-4", "text-white", "hover:bg-blue-900", "cursor-pointer");
             if (i == numOFSuggestions - 1) {
                 newDiv.classList.add("rounded-bl-xl", "rounded-br-xl");
             }
@@ -540,7 +542,7 @@ function showSearchSuggestions(numOFSuggestions, data) {
 
         if (numOFSuggestions == 0) {
             const newDiv = document.createElement("div");
-            newDiv.classList.add("p-4", "text-white", "hover:bg-blue-900");
+            newDiv.classList.add("p-4", "text-white", "hover:bg-blue-900","cursor-pointer");
             newDiv.classList.add("rounded-bl-xl", "rounded-br-xl");
             newDiv.innerText = `No city found!!`;
             searchSuggest.appendChild(newDiv);
@@ -572,8 +574,7 @@ searchBar.addEventListener("click", () => {
     searchInput.focus();
 });
 
-
-searchBtn.addEventListener("click", () => {
+function searchBtnClick(){
 
     if (searchInput.value.length > 2) {
 
@@ -583,13 +584,26 @@ searchBtn.addEventListener("click", () => {
         searchInput.value = "";
 
     }
-});
+}
 
+searchBtn.addEventListener("click", searchBtnClick());
+searchInput.addEventListener("keydown", (event)=>{
+    if (event.key == "Enter"){
+        searchBtnClick();
+    }
+})
+
+searchSuggest.addEventListener("click", (event) => {
+    // console.log(event.target.textContent);
+    searchInput.value = event.target.textContent;
+    searchBtnClick()
+});
 
 grantAccessBtn.addEventListener('click', () => {
 
     grantAccessScreen("remove");
     getLocation();
+    if (!locationIcon.classList.contains("hidden")) locationIcon.classList.add("hidden");
 
 });
 
