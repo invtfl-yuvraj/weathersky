@@ -96,6 +96,7 @@ async function currWeather(coordinates) {
         const response = await fetch(`http://api.weatherapi.com/v1/forecast.json?key=${APIKEY}&q=${lat},${lon}`);
 
         const currWeatherdata = await response.json();
+        console.log("fetch request using lat, lon successful!!");
 
         loadingOnHomeScreen("remove");
         showCurrWeather(currWeatherdata);
@@ -123,6 +124,7 @@ async function cityWeather(cityName) {
         const response = await fetch(`http://api.weatherapi.com/v1/forecast.json?key=${APIKEY}&q=${cityName}`);
 
         const currWeatherdata = await response.json();
+        console.log("fetch request using city name successful!!")
 
         loadingOnHomeScreen("remove");
         showCurrWeather(currWeatherdata);
@@ -445,19 +447,41 @@ function getfromSessionStorage() {
 
 }
 
+function getLocationWithTimeout(timeout = 10000) {
+    loadingOnHomeScreen("add");
+    return new Promise((resolve, reject) => {
 
-function getLocation() {
-    if (navigator.geolocation) {
-        loadingOnHomeScreen("add");
-        navigator.geolocation.getCurrentPosition(showPosition);
+        const timer = setTimeout(() => {
+            reject(new Error('Request timed out'));
+        }, timeout);
 
-    }
-    else {
-        alert(`Sorry, not able get your Location,
-        Search for your City!!!`);
-        loadingOnHomeScreen("remove");
-    }
+        navigator.geolocation.getCurrentPosition(
+            position => {
+                clearTimeout(timer); // Clear the timeout if the position is obtained
+                resolve(position);
+            },
+            error => {
+                clearTimeout(timer); // Clear the timeout if an error occurs
+                reject(error);
+            }
+        );
+        
+    });
 }
+
+
+// function getLocation() {
+//     if (navigator.geolocation) {
+//         loadingOnHomeScreen("add");
+//         navigator.geolocation.getCurrentPosition(showPosition);
+
+//     }
+//     else {
+//         alert(`Sorry, not able get your Location,
+//         Search for your City!!!`);
+//         loadingOnHomeScreen("remove");
+//     }
+// }
 
 function showPosition(position) {
     loadingOnHomeScreen("remove");
@@ -602,7 +626,24 @@ searchSuggest.addEventListener("click", (event) => {
 grantAccessBtn.addEventListener('click', () => {
 
     grantAccessScreen("remove");
-    getLocation();
+    // getLocation();
+
+    getLocationWithTimeout(8000)
+    .then(position => {
+        console.log('Position obtained:', position);
+        navigator.geolocation.getCurrentPosition(showPosition);
+    })
+    .catch(err => {
+        if (err.message === 'Request timed out') {
+            alert(`Sorry, not able get your Location,
+            Search for your City!!!`);
+        } else {
+            console.error('Geolocation error:', err);
+        }
+        loadingOnHomeScreen("remove");
+        grantAccessScreen("add");
+    });
+
     if (!locationIcon.classList.contains("hidden")) locationIcon.classList.add("hidden");
 
 });
