@@ -20,6 +20,14 @@ const grantAccessBtn = document.querySelector("[data-grantAccessBtn]");
 const hourlyWeather = document.querySelector("[data-hourlyWeather]");
 const locationIcon = document.querySelector("[data-locationIcon]");
 const currWeatherState = document.querySelector("[data-currWeatherState]");
+const hourlyWeatherDetailed = document.querySelector("[data-hourlyWeatherDetailed]");
+const locationNameDetailed = document.querySelector("[data-locationNameDetailed]");
+const currentTempDetailed = document.querySelector("[data-currentTempDetailed]");
+const currWeatherConditionDetailed = document.querySelector("[data-currWeatherConditionDetailed]");
+const sunriseTime = document.querySelector("[data-sunriseTime]");
+const sunsetTime = document.querySelector("[data-sunsetTime]");
+const moonriseTime = document.querySelector("[data-moonriseTime]");
+const moonsetTime = document.querySelector("[data-moonsetTime]");
 
 
 const APIKEY = "681a519968834de490b44801242804";
@@ -101,6 +109,8 @@ async function currWeather(coordinates) {
         loadingOnHomeScreen("remove");
         showCurrWeather(currWeatherdata);
         showHourlyWeather(currWeatherdata);
+        showHourlyWeatherDetailed(currWeatherdata);
+        detailedWeather(currWeatherdata);
         setTimeout(() => {
             showHourlyFocus();
         }, 500);
@@ -176,9 +186,12 @@ function showCurrWeather(weatherdata) {
     }
 
     locationName.textContent = weatherdata?.location?.name;
+    locationNameDetailed.textContent = weatherdata?.location?.name;
     locationRegion.textContent = `${weatherdata?.location?.region}, ${weatherdata?.location?.country}`;
     currWeatherCondition.textContent = weatherdata?.current?.condition?.text;
+    currWeatherConditionDetailed.textContent = weatherdata?.current?.condition?.text;
     currentTemp.innerHTML = `${Math.round(weatherdata?.current?.temp_c)}&#8451;`;
+    currentTempDetailed.innerHTML = `${Math.round(weatherdata?.current?.temp_c)}&#8451;`;
     feelsLike.innerHTML = `${Math.round(weatherdata?.current?.feelslike_c)}&#8451;`;
     currWindspeed.innerText = weatherdata?.current?.wind_kph;
     currCloudiness.innerText = weatherdata?.current?.cloud;
@@ -404,32 +417,45 @@ function findWeatherState(text, isDay) {
 function showHourlyFocus() {
     let targetDivNum = `.hour-${hourlyCurrHour}`;
 
-    const targetDiv = document.querySelector(targetDivNum);
-    targetDiv.classList.remove("bg-opacity-20");
-    targetDiv.classList.add("customHourlyAnimation");
+    const targetDiv = document.querySelectorAll(targetDivNum);
 
-    // Calculate the position of the target div relative to the main container
-    const containerRect = hourlyWeather.getBoundingClientRect();
-    const targetRect = targetDiv.getBoundingClientRect();
+    for (i = 0; i < targetDiv.length; i++) {
+        targetDiv[i].classList.remove("bg-opacity-20");
+        targetDiv[i].classList.add("customHourlyAnimation");
 
+        // Calculate the position of the target div relative to the main container
 
-    // Check if the target div is already in view
-    if (!isElementInViewport(targetRect, containerRect)) {
+        let containerRect;
+        if (i == 0){
+            containerRect = hourlyWeather.getBoundingClientRect();
+        }
+        else{
+            containerRect = hourlyWeatherDetailed.getBoundingClientRect();
+        }
+        
+        const targetRect = targetDiv[i].getBoundingClientRect();
 
-        const scrollTop = targetRect.top - containerRect.top + hourlyWeather.scrollTop - (containerRect.height - targetRect.height) / 2;
+        // Check if the target div is already in view
+        if (!isElementInViewport(targetRect, containerRect)) {
 
-        // Scroll the main container to the calculated position
-        hourlyWeather.scrollTo({ top: scrollTop, behavior: 'smooth' });
+            const scrollTop = targetRect.top - containerRect.top + hourlyWeather.scrollTop - (containerRect.height - targetRect.height) / 2;
+            const scrollMid = targetRect.left - containerRect.left + hourlyWeatherDetailed.scrollLeft - (containerRect.width - targetRect.width) / 2;
+
+            // Scroll the main container to the calculated position
+            hourlyWeather.scrollTo({ top: scrollTop, behavior: 'smooth' });
+            hourlyWeatherDetailed.scrollTo({left: scrollMid, behavior: 'smooth'});
+        }
+
+        function isElementInViewport(targetRect, containerRect) {
+            return (
+                targetRect.top >= containerRect.top &&
+                targetRect.left >= containerRect.left &&
+                targetRect.bottom <= containerRect.bottom &&
+                targetRect.right <= containerRect.right
+            );
+        }
     }
 
-    function isElementInViewport(targetRect, containerRect) {
-        return (
-            targetRect.top >= containerRect.top &&
-            targetRect.left >= containerRect.left &&
-            targetRect.bottom <= containerRect.bottom &&
-            targetRect.right <= containerRect.right
-        );
-    }
 }
 
 
@@ -465,7 +491,7 @@ function getLocationWithTimeout(timeout = 10000) {
                 reject(error);
             }
         );
-        
+
     });
 }
 
@@ -566,7 +592,7 @@ function showSearchSuggestions(numOFSuggestions, data) {
 
         if (numOFSuggestions == 0) {
             const newDiv = document.createElement("div");
-            newDiv.classList.add("p-4", "text-white", "hover:bg-blue-900","cursor-pointer");
+            newDiv.classList.add("p-4", "text-white", "hover:bg-blue-900", "cursor-pointer");
             newDiv.classList.add("rounded-bl-xl", "rounded-br-xl");
             newDiv.innerText = `No city found!!`;
             searchSuggest.appendChild(newDiv);
@@ -598,7 +624,7 @@ searchBar.addEventListener("click", () => {
     searchInput.focus();
 });
 
-function searchBtnClick(){
+function searchBtnClick() {
 
     if (searchInput.value.length > 2) {
 
@@ -611,8 +637,8 @@ function searchBtnClick(){
 }
 
 searchBtn.addEventListener("click", searchBtnClick());
-searchInput.addEventListener("keydown", (event)=>{
-    if (event.key == "Enter"){
+searchInput.addEventListener("keydown", (event) => {
+    if (event.key == "Enter") {
         searchBtnClick();
     }
 })
@@ -629,20 +655,20 @@ grantAccessBtn.addEventListener('click', () => {
     // getLocation();
 
     getLocationWithTimeout(8000)
-    .then(position => {
-        console.log('Position obtained:', position);
-        navigator.geolocation.getCurrentPosition(showPosition);
-    })
-    .catch(err => {
-        if (err.message === 'Request timed out') {
-            alert(`Sorry, not able get your Location,
+        .then(position => {
+            console.log('Position obtained:', position);
+            navigator.geolocation.getCurrentPosition(showPosition);
+        })
+        .catch(err => {
+            if (err.message === 'Request timed out') {
+                alert(`Sorry, not able get your Location,
             Search for your City!!!`);
-        } else {
-            console.error('Geolocation error:', err);
-        }
-        loadingOnHomeScreen("remove");
-        grantAccessScreen("add");
-    });
+            } else {
+                console.error('Geolocation error:', err);
+            }
+            loadingOnHomeScreen("remove");
+            grantAccessScreen("add");
+        });
 
     if (!locationIcon.classList.contains("hidden")) locationIcon.classList.add("hidden");
 
@@ -657,3 +683,114 @@ locationIcon.addEventListener("click", () => {
     getfromSessionStorage();
     if (!locationIcon.classList.contains("hidden")) locationIcon.classList.add("hidden");
 });
+
+
+//  next section
+
+function showHourlyWeatherDetailed(weatherdata) {
+
+    while (hourlyWeatherDetailed.firstChild) {
+        hourlyWeatherDetailed.removeChild(hourlyWeatherDetailed.firstChild);
+    }
+
+    loadingOnHourlyScreen("add");
+
+
+    for (let i = 0; i < 24; i++) {
+
+        const hourlyDiv = document.createElement("div");
+        hourlyDiv.classList.add("flex", "h-full", "items-center", "w-60", "bg-opacity-20", "bg-lightBlue", "rounded-xl", "shadow-[inset_-4px_-4px_8.0px_0.0px_rgba(0,0,0,0.38)]", `hour-${i}`);
+
+        try {
+
+            // creating a div for time data and a para in it
+            const timeDiv = document.createElement("div");
+            timeDiv.classList.add("text-sm", "text-center");
+
+            const timePara = document.createElement("p");
+            let hourlyTime = weatherdata?.forecast?.forecastday[0]?.hour[i]?.time.split(' ')[1];
+            if (hourlyTime.split(":")[0] < 12) {
+                timePara.innerText = `${hourlyTime}AM`;
+            }
+            else if (hourlyTime.split(":")[0] == 12) {
+                timePara.innerText = `${hourlyTime}PM`;
+            }
+            else {
+                const afterNoonTime = () => {
+
+                    if (hourlyTime.split(":")[0] - 12 < 10) {
+                        return `0${hourlyTime.split(":")[0] - 12}:00PM`;
+                    }
+                    else {
+                        return `${hourlyTime.split(":")[0] - 12}:00PM`;
+                    }
+                }
+                timePara.innerText = afterNoonTime();
+            }
+            timeDiv.appendChild(timePara);
+
+
+
+            // creating a div for temperature data and a para in it
+            const tempDiv = document.createElement("div");
+            tempDiv.classList.add("w-16", "text-center", "text-semibold");
+
+            const tempPara = document.createElement("p");
+            tempPara.innerHTML = `${Math.round(weatherdata?.forecast?.forecastday[0]?.hour[i]?.temp_c)}<span>&#8451;</span>`;
+            tempDiv.appendChild(tempPara);
+
+
+            // creating a img to show weather state
+            const weatherStateImg = document.createElement("img");
+            weatherStateImg.classList.add("w-16", "aspect-square");
+            weatherStateImg.src = "";
+
+            const text = (weatherdata?.forecast?.forecastday[0]?.hour[i]?.condition.text).toLowerCase().trim();
+            const isDay = weatherdata?.forecast?.forecastday[0]?.hour[i]?.is_day;
+
+            weatherStateImg.src = findWeatherState(text, isDay);
+
+
+            // adding all above to main div
+            hourlyDiv.appendChild(weatherStateImg);
+
+            const timeAndTempDiv = document.createElement("div");
+            timeAndTempDiv.classList.add("flex", "flex-col", "bg-transparent", "rounded-xl", "w-36", "h-full", "justify-center", "items-center", "pr-2")
+
+            timeAndTempDiv.appendChild(timeDiv);
+            timeAndTempDiv.appendChild(tempDiv);
+            hourlyDiv.appendChild(timeAndTempDiv);
+
+
+        } catch (error) {
+            const hourlyError = document.createElement("p");
+            hourlyError.innerText = "Something went wrong..";
+            hourlyError.classList.add("py-4");
+            hourlyDiv.appendChild(hourlyError);
+            hourlyDiv.classList.remove("justify-between");
+            hourlyDiv.classList.add("justify-center");
+
+            console.log("Error in hourly data input : ", error);
+        }
+
+        // adding all hours data one by one
+        hourlyWeatherDetailed.appendChild(hourlyDiv);
+    }
+
+    loadingOnHourlyScreen("remove");
+    // hourlyCurrHour = findHourlyCurrHour(weatherdata);
+
+}
+
+hourlyWeatherDetailed.addEventListener("scroll", () => {
+    handleScroll();
+    console.log("scrollllllllled")
+});
+
+function detailedWeather(weatherdata){
+    sunriseTime.textContent = weatherdata?.forecast?.forecastday[0]?.astro?.sunrise ;
+    sunsetTime.textContent = weatherdata?.forecast?.forecastday[0]?.astro?.sunset ;
+    moonriseTime.textContent = weatherdata?.forecast?.forecastday[0]?.astro?.moonrise ;
+    moonsetTime.textContent = weatherdata?.forecast?.forecastday[0]?.astro?.moonset ;
+
+}
