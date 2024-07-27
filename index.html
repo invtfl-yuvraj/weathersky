@@ -39,6 +39,41 @@
         .customHourlyAnimation {
             animation: bgOpacityTransition 1700ms ease-out infinite alternate;
         }
+
+        @media screen and (-webkit-min-device-pixel-ratio:0) {
+            input[type="range"] {
+                appearance: none;
+                width: 87%;
+                height: 0.7rem;
+                border-radius: 0.5rem;
+                margin-top: 0.5rem;
+                outline: none;
+                cursor: pointer;
+                background-color: rgb(103 232 249);
+                background-image: linear-gradient(to right, #0066FF, #FF00B8);
+                background-repeat: no-repeat;
+                box-shadow: -2px -2px 3px 0px rgba(0, 0, 0, 0.38) inset;
+            }
+
+            input[type="range"]::-webkit-slider-thumb {
+                -webkit-appearance: none;
+                -webkit-border-radius: 50%;
+                height: 1rem;
+                width: 1rem;
+                border-radius: 50%;
+                background-color: rgb(255, 255, 255);
+                cursor: pointer;
+                box-shadow: -2px -4px 4px 0px rgba(0, 0, 0, 0.48) inset;
+                transition: all 50ms ease-in;
+                /* border: 1px solid rgb(6, 6, 6); */
+            }
+
+            .slider::-webkit-slider-thumb:hover {
+                outline: 2px solid rgb(0, 0, 0);
+                /* background-color: rgb(103 232 249); */
+                /* box-shadow: 0px 0px 25px 5px rgba(255, 229, 61, 0.80); */
+            }
+        }
     </style>
 
 </head>
@@ -132,6 +167,8 @@
                     class="mt-6 w-1/4 p-4 bg-lightBlue text-2xl text-center rounded-xl cursor-pointer shadow-[inset_-4px_-4px_8.0px_0.0px_rgba(0,0,0,0.38)] bg-opacity-50 hover:bg-opacity-100"
                     data-grantAccessBtn>Grant Access</button>
             </div>
+
+            <!-- main screen stars here -->
 
             <div class="main grid-rows-1 grid grid-cols-2 mx-40 text-white h-5/6 pt-24 gap-20" data-mainHomeScreen>
                 <!-- location weather -->
@@ -299,13 +336,13 @@
                             </div>
 
                             <div class="flex justify-center items-end pb-2">
-                                <p class="font-semibold text-xl">05:30AM</p>
+                                <p class="font-semibold text-xl" data-sunriseTime>05:30AM</p>
                             </div>
                             <div class="flex justify-center pt-3 ">
                                 <p class="font-semibold text-xl">SUNSET</p>
                             </div>
                             <div class="flex justify-center pt-4">
-                                <p class="font-semibold text-xl">06:30AM</p>
+                                <p class="font-semibold text-xl" data-sunsetTime>06:30AM</p>
                             </div>
 
                         </div>
@@ -331,20 +368,47 @@
                             </div>
 
                             <div class="flex justify-center items-end pb-2">
-                                <p class="font-semibold text-xl">05:30AM</p>
+                                <p class="font-semibold text-xl" data-moonriseTime>05:30AM</p>
                             </div>
                             <div class="flex justify-center pt-3 pr-2">
                                 <p class="font-semibold text-xl">MOONSET</p>
                             </div>
                             <div class="flex justify-center pt-4">
-                                <p class="font-semibold text-xl">06:30AM</p>
+                                <p class="font-semibold text-xl" data-moonsetTime>06:30AM</p>
                             </div>
 
                         </div>
 
                     </div>
 
-                    <div class="bg-lightBlue col-start-7 col-end-9 rounded-xl bg-opacity-20"></div>
+                    <div class="bg-lightBlue col-start-7 col-end-9 rounded-xl bg-opacity-20">
+
+                        <div class="relative w-full h-[100%]  grid grid-rows-2 grid-cols-1 pr-4">
+                            <!-- <div class="h-1/5 w-2 bg-lightBlue bg-opacity-40 absolute rounded-xl top-[25%] left-[45%]"></div> -->
+                            <!-- <div class="h-1/5 w-2 bg-lightBlue bg-opacity-40 absolute rounded-xl bottom-[23%] left-[45%]"></div> -->
+                            <!-- <div class="h-2 w-[87%] bg-lightBlue bg-opacity-40 absolute rounded-xl top-[49%] left-[7%]"></div> -->
+                            <!-- <div class="h-2 w-1/3 bg-lightBlue bg-opacity-40 absolute rounded-xl top-[49%] right-[15%]"></div> -->
+                            
+                            <div class="w-full flex justify-between items-center px-8"> 
+                                <img class="w-20 invert aspect-square p-2"
+                                src="./assets/others/air-quality.png" alt="">
+                                <p class="font-semibold text-xl pt-6">Air Quality</p>
+                                
+                            </div>
+                            
+                            <input type="range" min="0" max="10" step="1" class="slider absolute w-[90%] bg-lightBlue top-[49%] left-[7%]">
+
+                            <div class="w-full flex justify-center items-center pl-4">
+                                <p class="text-xl">Very Unhealthy</p>
+                            </div>
+
+
+                        </div>
+
+                        
+
+                        
+                    </div>
                     <div class="bg-lightBlue col-start-1 col-end-3 rounded-xl bg-opacity-20"></div>
                     <div class="bg-lightBlue col-start-3 col-end-5 rounded-xl bg-opacity-20"></div>
                     <div class="bg-lightBlue col-start-5 col-end-7 rounded-xl bg-opacity-20"></div>
