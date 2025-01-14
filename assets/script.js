@@ -121,7 +121,7 @@ async function currWeather(coordinates) {
 
     try {
 
-        const response = await fetch(`http://api.weatherapi.com/v1/forecast.json?key=${APIKEY}&q=${lat},${lon}&aqi=yes&days=3`);
+        const response = await fetch(`https://api.weatherapi.com/v1/forecast.json?key=${APIKEY}&q=${lat},${lon}&aqi=yes&days=3`);
 
         const currWeatherdata = await response.json();
         console.log("fetch request using lat, lon successful!!");
@@ -151,7 +151,7 @@ async function cityWeather(cityName) {
 
     try {
 
-        const response = await fetch(`http://api.weatherapi.com/v1/forecast.json?key=${APIKEY}&q=${cityName}&aqi=yes&days=3`);
+        const response = await fetch(`https://api.weatherapi.com/v1/forecast.json?key=${APIKEY}&q=${cityName}&aqi=yes&days=3`);
 
         const currWeatherdata = await response.json();
         console.log("fetch request using city name successful!!")
@@ -551,7 +551,7 @@ async function searchSuggestions() {
         let currentText = searchInput.value;
 
         if (currentText.length > 2) {
-            const response = await fetch(`http://api.weatherapi.com/v1/search.json?key=${APIKEY}&q=${currentText}`);
+            const response = await fetch(`https://api.weatherapi.com/v1/search.json?key=${APIKEY}&q=${currentText}`);
             const data = await response.json();
 
             showSearchSuggestions(data.length, data);
