@@ -443,7 +443,7 @@ function showHourlyFocus() {
 
     const targetDiv = document.querySelectorAll(targetDivNum);
 
-    for (i = 0; i < targetDiv.length; i++) {
+    for (let i = 0; i < targetDiv.length; i++) {
         targetDiv[i].classList.remove("bg-opacity-20");
         targetDiv[i].classList.add("customHourlyAnimation");
 
