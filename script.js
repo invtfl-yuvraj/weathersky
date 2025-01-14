@@ -11,7 +11,7 @@ import thunderstorm from "./assets/weather_states/Thunderstorm.png";
 import heavyThunderstorm from "./assets/weather_states/Heavy_Thunderstorm.png";
 import windy from "./assets/weather_states/Windy.png";
 import snow from "./assets/weather_states/Snow.png";
-import API_KEY from "./something"
+import config from './config.js';
 
 const searchBar = document.querySelector("[data-searchBar]");
 const searchInput = document.querySelector("[data-searchInput]");
@@ -58,7 +58,7 @@ const windChill = document.querySelector("[data-windChill]");
 const detailedSection = document.querySelector("[data-detailedSection]");
 
 
-const APIKEY = API_KEY;
+const APIKEY = config.apiKey;
 
 let hourlyCurrHour;
 
