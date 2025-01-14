@@ -1,3 +1,18 @@
+import drizzleDay from "./assets/weather_states/Drizzle_day.png";
+import drizzleNight from "./assets/weather_states/Drizzle_Night.png";
+import mostlyClearDay from "./assets/weather_states/Mostly_clear.png";
+import mostlyClearNight from "./assets/weather_states/Mostly_Clear_Night_img.png";
+import clear from "./assets/weather_states/Clear.png";
+import sunny from "./assets/weather_states/Sunny.png";
+import lightRaining from "./assets/weather_states/Light_Raining.png";
+import heavyRaining from "./assets/weather_states/Heavy_Raining.png";
+import allCloudy from "./assets/weather_states/All_Cloudy.png";
+import thunderstorm from "./assets/weather_states/Thunderstorm.png";
+import heavyThunderstorm from "./assets/weather_states/Heavy_Thunderstorm.png";
+import windy from "./assets/weather_states/Windy.png";
+import snow from "./assets/weather_states/Snow.png";
+import API_KEY from "./something"
+
 const searchBar = document.querySelector("[data-searchBar]");
 const searchInput = document.querySelector("[data-searchInput]");
 const searchBtn = document.querySelector("[data-searchBtn]");
@@ -42,24 +57,8 @@ const heatIndex = document.querySelector("[data-heatIndex]");
 const windChill = document.querySelector("[data-windChill]");
 const detailedSection = document.querySelector("[data-detailedSection]");
 
-import drizzleDay from "./assets/weather_states/Drizzle_day.png";
-import drizzleNight from "./assets/weather_states/Drizzle_Night.png";
-import mostlyClearDay from "./assets/weather_states/Mostly_clear.png";
-import mostlyClearNight from "./assets/weather_states/Mostly_Clear_Night_img.png";
-import clear from "./assets/weather_states/Clear.png";
-import sunny from "./assets/weather_states/Sunny.png";
-import lightRaining from "./assets/weather_states/Light_Raining.png";
-import heavyRaining from "./assets/weather_states/Heavy_Raining.png";
-import allCloudy from "./assets/weather_states/All_Cloudy.png";
-import thunderstorm from "./assets/weather_states/Thunderstorm.png";
-import heavyThunderstorm from "./assets/weather_states/Heavy_Thunderstorm.png";
-import windy from "./assets/weather_states/Windy.png";
-import snow from "./assets/weather_states/Snow.png";
 
-
-
-
-const APIKEY = "681a519968834de490b44801242804";
+const APIKEY = API_KEY;
 
 let hourlyCurrHour;
 
