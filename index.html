@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="scroll-smooth">
 
 <head>
     <meta charset="UTF-8">
@@ -61,15 +61,15 @@
                 height: 1rem;
                 width: 1rem;
                 border-radius: 50%;
-                background-color: rgb(255, 255, 255);
+                background-color: rgb(253, 24, 24);
                 cursor: pointer;
                 box-shadow: -2px -4px 4px 0px rgba(0, 0, 0, 0.48) inset;
                 transition: all 50ms ease-in;
                 /* border: 1px solid rgb(6, 6, 6); */
             }
 
-            .slider::-webkit-slider-thumb:hover {
-                outline: 2px solid rgb(0, 0, 0);
+            .slider::-webkit-slider-thumb {
+                outline: 2px solid rgb(255, 255, 255);
                 /* background-color: rgb(103 232 249); */
                 /* box-shadow: 0px 0px 25px 5px rgba(255, 229, 61, 0.80); */
             }
@@ -272,14 +272,14 @@
 
 
             <div class="w-full flex items-center justify-center px-40 pt-8">
-                <img class="w-20" src="./assets/Chevron Down.png" alt="">
+                <a href="#detailedSection" ><img class="w-20" src="./assets/Chevron Down.png" alt=""></a>
             </div>
 
         </section>
 
         <!-- detailed weather  -->
 
-        <section class="relative h-[90vh] w-full">
+        <section class="relative h-[90vh] w-full " id="detailedSection" data-detailedSection>
             <div class="mx-40 text-white h-5/6 pt-8 gap-20">
 
                 <!-- location  -->
@@ -386,10 +386,6 @@
                     <div class="bg-lightBlue col-start-7 col-end-9 rounded-xl bg-opacity-20">
 
                         <div class="relative w-full h-[100%]  grid grid-rows-2 grid-cols-1 pr-4">
-                            <!-- <div class="h-1/5 w-2 bg-lightBlue bg-opacity-40 absolute rounded-xl top-[25%] left-[45%]"></div>
-                            <div class="h-1/5 w-2 bg-lightBlue bg-opacity-40 absolute rounded-xl bottom-[23%] left-[45%]"></div>
-                            <div class="h-2 w-[87%] bg-lightBlue bg-opacity-40 absolute rounded-xl top-[49%] left-[7%]"></div>
-                            <div class="h-2 w-1/3 bg-lightBlue bg-opacity-40 absolute rounded-xl top-[49%] right-[15%]"></div> -->
 
                             <div class="w-full flex justify-between items-center px-8">
                                 <img class="w-20 invert aspect-square p-2" src="./assets/others/air-quality.png" alt="">
@@ -397,10 +393,10 @@
 
                             </div>
 
-                            <input type="range" min="0" max="10" step="1" class="slider absolute w-[90%] bg-lightBlue top-[49%] left-[7%]">
+                            <input type="range" min="0" max="6" step="1" class="slider absolute w-[90%] bg-lightBlue top-[49%] left-[7%]" data-airQualitySlider disabled>
 
                             <div class="w-full flex justify-center items-center pl-4">
-                                <p class="text-xl">Very Unhealthy</p>
+                                <p class="text-xl" data-airQuality>Not available</p>
                             </div>
 
 
@@ -426,7 +422,7 @@
                                 <img class="w-16 invert aspect-square p-2" src="./assets/others/air-quality.png" alt="">
                             </div>
                             <div class="flex justify-center pt-4">
-                                <p class="font-semibold text-xl" data->200</p>
+                                <p class="font-semibold text-xl" data-uvIndex>Not available</p>
                             </div>
 
                         </div>
@@ -448,7 +444,7 @@
                                 <img class="w-16 invert aspect-square p-2" src="./assets/others/rain.png" alt="">
                             </div>
                             <div class="flex justify-center pt-4">
-                                <p class="font-semibold text-xl" data->200%</p>
+                                <p class="font-semibold text-xl" ><span data-chanceOfRain></span> %</p>
                             </div>
 
                         </div>
@@ -469,7 +465,7 @@
                                 <img class="w-16 invert aspect-square p-2" src="./assets/others/wind.png" alt="">
                             </div>
                             <div class="flex justify-center pt-4">
-                                <p class="font-semibold text-xl" data->200 kmph</p>
+                                <p class="font-semibold text-xl"><span data-gust></span> kmph</p>
                             </div>
 
                         </div>
@@ -489,7 +485,7 @@
                                 <img class="w-16 invert aspect-square p-2" src="./assets/others/low-visibility.png" alt="">
                             </div>
                             <div class="flex justify-center pt-4">
-                                <p class="font-semibold text-xl" data->200 km</p>
+                                <p class="font-semibold text-xl" ><span data-visibility></span> km</p>
                             </div>
 
                         </div>
@@ -510,7 +506,7 @@
                                 <img class="w-16 invert aspect-square p-2" src="./assets/others/dew.png" alt="">
                             </div>
                             <div class="flex justify-center pt-4">
-                                <p class="font-semibold text-xl" data-><span data-currentTemp>35&#8451;</span></p>
+                                <p class="font-semibold text-xl" ><span data-dewPoint></span>&#8451;</p>
                             </div>
 
                         </div>
@@ -520,7 +516,7 @@
                     <div class="bg-lightBlue col-start-3 col-end-6 rounded-xl bg-opacity-20 grid grid-rows-1 grid-cols-3">
 
                         <div class="w-full flex justify-center items-center"> <img class="w-32 invert aspect-square p-4"
-                                src="./assets/others/moon.png" alt=""></div>
+                                src="./assets/others/wind-rose.png" alt=""></div>
 
 
                         <div class="relative w-full h-full col-start-2 col-end-4 grid grid-rows-2 grid-cols-2 pr-4">
@@ -534,13 +530,13 @@
                             </div>
 
                             <div class="flex justify-center items-end pb-2">
-                                <p class="font-semibold text-xl" data-moonriseTime>20 kmph</p>
+                                <p class="font-semibold text-xl" ><span data-windSpeed></span> kmph</p>
                             </div>
                             <div class="flex justify-center pt-3 pr-2">
                                 <p class="font-semibold text-xl">Direction</p>
                             </div>
                             <div class="flex justify-center pt-4">
-                                <p class="font-semibold text-xl" data-moonsetTime><span data->35&#176;</span>SSE</p>
+                                <p class="font-semibold text-xl"><span data-windDegree></span>&#176; <span data-windDirection></span></p>
                             </div>
 
                         </div>
@@ -550,7 +546,7 @@
                     <div class="bg-lightBlue col-start-6 col-end-9 rounded-xl bg-opacity-20 grid grid-rows-1 grid-cols-3">
 
                         <div class="w-full flex justify-center items-center"> <img class="w-32 invert aspect-square p-4"
-                                src="./assets/others/moon.png" alt=""></div>
+                                src="./assets/others/heat-wave.png" alt=""></div>
 
 
                         <div class="relative w-full h-full col-start-2 col-end-4 grid grid-rows-2 grid-cols-2 pr-4">
@@ -564,13 +560,13 @@
                             </div>
 
                             <div class="flex justify-center items-end pb-2">
-                                <p class="font-semibold text-xl" data-moonriseTime><span data-currentTemp>35&#8451;</span></p>
+                                <p class="font-semibold text-xl" ><span data-heatIndex></span>&#8451;</p>
                             </div>
                             <div class="flex justify-center pt-3 pr-2">
                                 <p class="font-semibold text-xl">Wind Chill</p>
                             </div>
                             <div class="flex justify-center pt-4">
-                                <p class="font-semibold text-xl" data-moonsetTime><span data-currentTemp>35&#8451;</span></p>
+                                <p class="font-semibold text-xl" ><span data-windChill></span>&#8451;</p>
                             </div>
 
                         </div>
