@@ -381,21 +381,22 @@
 
                     </div>
 
+                    <!-- Air Quality -->
+
                     <div class="bg-lightBlue col-start-7 col-end-9 rounded-xl bg-opacity-20">
 
                         <div class="relative w-full h-[100%]  grid grid-rows-2 grid-cols-1 pr-4">
-                            <!-- <div class="h-1/5 w-2 bg-lightBlue bg-opacity-40 absolute rounded-xl top-[25%] left-[45%]"></div> -->
-                            <!-- <div class="h-1/5 w-2 bg-lightBlue bg-opacity-40 absolute rounded-xl bottom-[23%] left-[45%]"></div> -->
-                            <!-- <div class="h-2 w-[87%] bg-lightBlue bg-opacity-40 absolute rounded-xl top-[49%] left-[7%]"></div> -->
-                            <!-- <div class="h-2 w-1/3 bg-lightBlue bg-opacity-40 absolute rounded-xl top-[49%] right-[15%]"></div> -->
-                            
-                            <div class="w-full flex justify-between items-center px-8"> 
-                                <img class="w-20 invert aspect-square p-2"
-                                src="./assets/others/air-quality.png" alt="">
+                            <!-- <div class="h-1/5 w-2 bg-lightBlue bg-opacity-40 absolute rounded-xl top-[25%] left-[45%]"></div>
+                            <div class="h-1/5 w-2 bg-lightBlue bg-opacity-40 absolute rounded-xl bottom-[23%] left-[45%]"></div>
+                            <div class="h-2 w-[87%] bg-lightBlue bg-opacity-40 absolute rounded-xl top-[49%] left-[7%]"></div>
+                            <div class="h-2 w-1/3 bg-lightBlue bg-opacity-40 absolute rounded-xl top-[49%] right-[15%]"></div> -->
+
+                            <div class="w-full flex justify-between items-center px-8">
+                                <img class="w-20 invert aspect-square p-2" src="./assets/others/air-quality.png" alt="">
                                 <p class="font-semibold text-xl pt-6">Air Quality</p>
-                                
+
                             </div>
-                            
+
                             <input type="range" min="0" max="10" step="1" class="slider absolute w-[90%] bg-lightBlue top-[49%] left-[7%]">
 
                             <div class="w-full flex justify-center items-center pl-4">
@@ -405,25 +406,184 @@
 
                         </div>
 
-                        
 
-                        
+
+
                     </div>
-                    <div class="bg-lightBlue col-start-1 col-end-3 rounded-xl bg-opacity-20"></div>
-                    <div class="bg-lightBlue col-start-3 col-end-5 rounded-xl bg-opacity-20"></div>
-                    <div class="bg-lightBlue col-start-5 col-end-7 rounded-xl bg-opacity-20"></div>
-                    <div class="bg-lightBlue col-start-7 col-end-9 rounded-xl bg-opacity-20"></div>
-                    <div class="bg-lightBlue col-start-1 col-end-3 rounded-xl bg-opacity-20"></div>
-                    <div class="bg-lightBlue col-start-3 col-end-6 rounded-xl bg-opacity-20"></div>
-                    <div class="bg-lightBlue col-start-6 col-end-9 rounded-xl bg-opacity-20"></div>
+
+                    <!-- UV index -->
+                    <div class="bg-lightBlue col-start-1 col-end-3 rounded-xl bg-opacity-20">
+
+                        <div class="relative w-full h-full col-start-2 col-end-4 grid grid-rows-2 grid-cols-2 pr-4">
+                            <div class="h-1/3 w-2 bg-lightBlue bg-opacity-40 absolute rounded-xl bottom-[15%] left-[45%]"></div>
+                            <div class="h-2 w-4/5 bg-lightBlue bg-opacity-40 absolute rounded-xl top-[40%] right-[10%]"></div>
+
+                            <div class="flex justify-center items-end pb-6 pr-2 col-start-1 col-end-4">
+                                <p class="font-semibold text-xl">UV Index</p>
+                            </div>
+
+                            <div class="w-full relative flex justify-between items-center px-8 -top-2">
+                                <img class="w-16 invert aspect-square p-2" src="./assets/others/air-quality.png" alt="">
+                            </div>
+                            <div class="flex justify-center pt-4">
+                                <p class="font-semibold text-xl" data->200</p>
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                    <!-- Chance of Rain -->
+
+                    <div class="bg-lightBlue col-start-3 col-end-5 rounded-xl bg-opacity-20">
+                        <div class="relative w-full h-full col-start-2 col-end-4 grid grid-rows-2 grid-cols-2 pr-4">
+                            <div class="h-1/3 w-2 bg-lightBlue bg-opacity-40 absolute rounded-xl bottom-[15%] left-[45%]"></div>
+                            <div class="h-2 w-4/5 bg-lightBlue bg-opacity-40 absolute rounded-xl top-[40%] right-[10%]"></div>
+
+                            <div class="flex justify-center items-end pb-6 pr-2 col-start-1 col-end-4">
+                                <p class="font-semibold text-xl">Chance of Rain</p>
+                            </div>
+
+                            <div class="w-full relative flex justify-between items-center px-8 -top-2">
+                                <img class="w-16 invert aspect-square p-2" src="./assets/others/rain.png" alt="">
+                            </div>
+                            <div class="flex justify-center pt-4">
+                                <p class="font-semibold text-xl" data->200%</p>
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <!-- Gust -->
+
+                    <div class="bg-lightBlue col-start-5 col-end-7 rounded-xl bg-opacity-20">
+                        <div class="relative w-full h-full col-start-2 col-end-4 grid grid-rows-2 grid-cols-2 pr-4">
+                            <div class="h-1/3 w-2 bg-lightBlue bg-opacity-40 absolute rounded-xl bottom-[15%] left-[45%]"></div>
+                            <div class="h-2 w-4/5 bg-lightBlue bg-opacity-40 absolute rounded-xl top-[40%] right-[10%]"></div>
+
+                            <div class="flex justify-center items-end pb-6 pr-2 col-start-1 col-end-4">
+                                <p class="font-semibold text-xl">Gust</p>
+                            </div>
+
+                            <div class="w-full relative flex justify-between items-center px-8 -top-2">
+                                <img class="w-16 invert aspect-square p-2" src="./assets/others/wind.png" alt="">
+                            </div>
+                            <div class="flex justify-center pt-4">
+                                <p class="font-semibold text-xl" data->200 kmph</p>
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <!-- Visibility -->
+                    <div class="bg-lightBlue col-start-7 col-end-9 rounded-xl bg-opacity-20">
+                        <div class="relative w-full h-full col-start-2 col-end-4 grid grid-rows-2 grid-cols-2 pr-4">
+                            <div class="h-1/3 w-2 bg-lightBlue bg-opacity-40 absolute rounded-xl bottom-[15%] left-[45%]"></div>
+                            <div class="h-2 w-4/5 bg-lightBlue bg-opacity-40 absolute rounded-xl top-[40%] right-[10%]"></div>
+
+                            <div class="flex justify-center items-end pb-6 pr-2 col-start-1 col-end-4">
+                                <p class="font-semibold text-xl">Visibility</p>
+                            </div>
+
+                            <div class="w-full relative flex justify-between items-center px-8 -top-2">
+                                <img class="w-16 invert aspect-square p-2" src="./assets/others/low-visibility.png" alt="">
+                            </div>
+                            <div class="flex justify-center pt-4">
+                                <p class="font-semibold text-xl" data->200 km</p>
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <!-- Dew Point -->
+
+                    <div class="bg-lightBlue col-start-1 col-end-3 rounded-xl bg-opacity-20">
+                        <div class="relative w-full h-full col-start-2 col-end-4 grid grid-rows-2 grid-cols-2 pr-4">
+                            <div class="h-1/3 w-2 bg-lightBlue bg-opacity-40 absolute rounded-xl bottom-[15%] left-[45%]"></div>
+                            <div class="h-2 w-4/5 bg-lightBlue bg-opacity-40 absolute rounded-xl top-[40%] right-[10%]"></div>
+
+                            <div class="flex justify-center items-end pb-6 pr-2 col-start-1 col-end-4">
+                                <p class="font-semibold text-xl">Dew Point</p>
+                            </div>
+
+                            <div class="w-full relative flex justify-between items-center px-8 -top-2">
+                                <img class="w-16 invert aspect-square p-2" src="./assets/others/dew.png" alt="">
+                            </div>
+                            <div class="flex justify-center pt-4">
+                                <p class="font-semibold text-xl" data-><span data-currentTemp>35&#8451;</span></p>
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <!-- Wind / Direction -->
+                    <div class="bg-lightBlue col-start-3 col-end-6 rounded-xl bg-opacity-20 grid grid-rows-1 grid-cols-3">
+
+                        <div class="w-full flex justify-center items-center"> <img class="w-32 invert aspect-square p-4"
+                                src="./assets/others/moon.png" alt=""></div>
+
+
+                        <div class="relative w-full h-full col-start-2 col-end-4 grid grid-rows-2 grid-cols-2 pr-4">
+                            <div class="h-1/5 w-2 bg-lightBlue bg-opacity-40 absolute rounded-xl top-[25%] left-[45%]"></div>
+                            <div class="h-1/5 w-2 bg-lightBlue bg-opacity-40 absolute rounded-xl bottom-[23%] left-[45%]"></div>
+                            <div class="h-2 w-1/3 bg-lightBlue bg-opacity-40 absolute rounded-xl top-[49%] left-[7%]"></div>
+                            <div class="h-2 w-1/3 bg-lightBlue bg-opacity-40 absolute rounded-xl top-[49%] right-[15%]"></div>
+
+                            <div class="flex justify-center items-end pb-2 pr-2">
+                                <p class="font-semibold text-xl">Wind Speed</p>
+                            </div>
+
+                            <div class="flex justify-center items-end pb-2">
+                                <p class="font-semibold text-xl" data-moonriseTime>20 kmph</p>
+                            </div>
+                            <div class="flex justify-center pt-3 pr-2">
+                                <p class="font-semibold text-xl">Direction</p>
+                            </div>
+                            <div class="flex justify-center pt-4">
+                                <p class="font-semibold text-xl" data-moonsetTime><span data->35&#176;</span>SSE</p>
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <!-- HeatIndex / Windchill -->
+                    <div class="bg-lightBlue col-start-6 col-end-9 rounded-xl bg-opacity-20 grid grid-rows-1 grid-cols-3">
+
+                        <div class="w-full flex justify-center items-center"> <img class="w-32 invert aspect-square p-4"
+                                src="./assets/others/moon.png" alt=""></div>
+
+
+                        <div class="relative w-full h-full col-start-2 col-end-4 grid grid-rows-2 grid-cols-2 pr-4">
+                            <div class="h-1/5 w-2 bg-lightBlue bg-opacity-40 absolute rounded-xl top-[25%] left-[45%]"></div>
+                            <div class="h-1/5 w-2 bg-lightBlue bg-opacity-40 absolute rounded-xl bottom-[23%] left-[45%]"></div>
+                            <div class="h-2 w-1/3 bg-lightBlue bg-opacity-40 absolute rounded-xl top-[49%] left-[7%]"></div>
+                            <div class="h-2 w-1/3 bg-lightBlue bg-opacity-40 absolute rounded-xl top-[49%] right-[15%]"></div>
+
+                            <div class="flex justify-center items-end pb-2 pr-2">
+                                <p class="font-semibold text-xl">Heat Index</p>
+                            </div>
+
+                            <div class="flex justify-center items-end pb-2">
+                                <p class="font-semibold text-xl" data-moonriseTime><span data-currentTemp>35&#8451;</span></p>
+                            </div>
+                            <div class="flex justify-center pt-3 pr-2">
+                                <p class="font-semibold text-xl">Wind Chill</p>
+                            </div>
+                            <div class="flex justify-center pt-4">
+                                <p class="font-semibold text-xl" data-moonsetTime><span data-currentTemp>35&#8451;</span></p>
+                            </div>
+
+                        </div>
+
+                    </div>
                 </div>
 
             </div>
         </section>
 
+        <section class="h-10 w-full">
 
-
-
+        </section>
     </div>
 
     <script src="./script.js"></script>
