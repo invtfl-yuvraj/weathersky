@@ -28,6 +28,20 @@ const sunriseTime = document.querySelector("[data-sunriseTime]");
 const sunsetTime = document.querySelector("[data-sunsetTime]");
 const moonriseTime = document.querySelector("[data-moonriseTime]");
 const moonsetTime = document.querySelector("[data-moonsetTime]");
+const airQuality = document.querySelector("[data-airQuality]");
+const airQualitySlider = document.querySelector("[data-airQualitySlider]");
+const uvIndex = document.querySelector("[data-uvIndex]");
+const chanceOfRain = document.querySelector("[data-chanceOfRain]");
+const gust = document.querySelector("[data-gust]");
+const visibility = document.querySelector("[data-visibility]");
+const dewPoint = document.querySelector("[data-dewPoint]");
+const windSpeed = document.querySelector("[data-windSpeed]");
+const windDegree = document.querySelector("[data-windDegree]");
+const windDirection = document.querySelector("[data-windDirection]");
+const heatIndex = document.querySelector("[data-heatIndex]");
+const windChill = document.querySelector("[data-windChill]");
+const detailedSection = document.querySelector("[data-detailedSection]");
+
 
 
 const APIKEY = "681a519968834de490b44801242804";
@@ -46,6 +60,7 @@ function loadingOnHomeScreen(currState) {
         mainHomeScreen.classList.add("hidden");
         loadingScreen.classList.remove("hidden");
         loadingScreen.classList.add("flex");
+        detailedSection.classList.add("hidden");
 
     }
     else if (currState == "remove") {
@@ -53,6 +68,7 @@ function loadingOnHomeScreen(currState) {
         loadingScreen.classList.add("hidden");
         mainHomeScreen.classList.remove("hidden");
         mainHomeScreen.classList.add("grid");
+        detailedSection.classList.remove("hidden");
     }
 }
 
@@ -63,6 +79,7 @@ function loadingOnHourlyScreen(currState) {
         hourlyWeather.classList.add("hidden");
         loadingHourlyScreen.classList.remove("hidden");
         loadingHourlyScreen.classList.add("flex");
+        detailedSection.classList.add("hidden");
 
     }
     else if (currState == "remove") {
@@ -70,6 +87,7 @@ function loadingOnHourlyScreen(currState) {
         loadingHourlyScreen.classList.add("hidden");
         hourlyWeather.classList.remove("hidden");
         hourlyWeather.classList.add("flex");
+        detailedSection.classList.remove("hidden");
     }
 }
 
@@ -80,6 +98,7 @@ function grantAccessScreen(currState) {
         mainHomeScreen.classList.add("hidden");
         grantLocation.classList.remove("hidden");
         grantLocation.classList.add("flex");
+        detailedSection.classList.add("hidden");
 
     }
     else if (currState == "remove") {
@@ -87,6 +106,7 @@ function grantAccessScreen(currState) {
         grantLocation.classList.add("hidden");
         mainHomeScreen.classList.remove("hidden");
         mainHomeScreen.classList.add("grid");
+        detailedSection.classList.remove("hidden");
     }
 }
 
@@ -101,7 +121,7 @@ async function currWeather(coordinates) {
 
     try {
 
-        const response = await fetch(`http://api.weatherapi.com/v1/forecast.json?key=${APIKEY}&q=${lat},${lon}`);
+        const response = await fetch(`http://api.weatherapi.com/v1/forecast.json?key=${APIKEY}&q=${lat},${lon}&aqi=yes&days=3`);
 
         const currWeatherdata = await response.json();
         console.log("fetch request using lat, lon successful!!");
@@ -131,7 +151,7 @@ async function cityWeather(cityName) {
 
     try {
 
-        const response = await fetch(`http://api.weatherapi.com/v1/forecast.json?key=${APIKEY}&q=${cityName}`);
+        const response = await fetch(`http://api.weatherapi.com/v1/forecast.json?key=${APIKEY}&q=${cityName}&aqi=yes&days=3`);
 
         const currWeatherdata = await response.json();
         console.log("fetch request using city name successful!!")
@@ -139,6 +159,8 @@ async function cityWeather(cityName) {
         loadingOnHomeScreen("remove");
         showCurrWeather(currWeatherdata);
         showHourlyWeather(currWeatherdata);
+        showHourlyWeatherDetailed(currWeatherdata);
+        detailedWeather(currWeatherdata);
         setTimeout(() => {
             showHourlyFocus();
         }, 500);
@@ -426,13 +448,13 @@ function showHourlyFocus() {
         // Calculate the position of the target div relative to the main container
 
         let containerRect;
-        if (i == 0){
+        if (i == 0) {
             containerRect = hourlyWeather.getBoundingClientRect();
         }
-        else{
+        else {
             containerRect = hourlyWeatherDetailed.getBoundingClientRect();
         }
-        
+
         const targetRect = targetDiv[i].getBoundingClientRect();
 
         // Check if the target div is already in view
@@ -443,7 +465,7 @@ function showHourlyFocus() {
 
             // Scroll the main container to the calculated position
             hourlyWeather.scrollTo({ top: scrollTop, behavior: 'smooth' });
-            hourlyWeatherDetailed.scrollTo({left: scrollMid, behavior: 'smooth'});
+            hourlyWeatherDetailed.scrollTo({ left: scrollMid, behavior: 'smooth' });
         }
 
         function isElementInViewport(targetRect, containerRect) {
@@ -787,10 +809,44 @@ hourlyWeatherDetailed.addEventListener("scroll", () => {
     console.log("scrollllllllled")
 });
 
-function detailedWeather(weatherdata){
-    sunriseTime.textContent = weatherdata?.forecast?.forecastday[0]?.astro?.sunrise ;
-    sunsetTime.textContent = weatherdata?.forecast?.forecastday[0]?.astro?.sunset ;
-    moonriseTime.textContent = weatherdata?.forecast?.forecastday[0]?.astro?.moonrise ;
-    moonsetTime.textContent = weatherdata?.forecast?.forecastday[0]?.astro?.moonset ;
+function airQualityFind(weatherdata) {
+
+    switch (weatherdata?.current?.air_quality?.['us-epa-index']) {
+        case 1:
+            return "Good";
+        case 2:
+            return "Moderate";
+        case 3:
+            return "Quite Unhealthy";
+        case 4:
+            return "Unhealthy";
+        case 5:
+            return "Very Unhealthy";
+        case 6:
+            return "Hazardous";
+        default:
+            return "Not available"
+    }
 
 }
+
+function detailedWeather(weatherdata) {
+    sunriseTime.textContent = weatherdata?.forecast?.forecastday[0]?.astro?.sunrise;
+    sunsetTime.textContent = weatherdata?.forecast?.forecastday[0]?.astro?.sunset;
+    moonriseTime.textContent = weatherdata?.forecast?.forecastday[0]?.astro?.moonrise;
+    moonsetTime.textContent = weatherdata?.forecast?.forecastday[0]?.astro?.moonset;
+    airQuality.textContent = airQualityFind(weatherdata);
+    airQualitySlider.value = weatherdata?.current?.air_quality?.['us-epa-index'];
+    uvIndex.textContent = weatherdata?.current?.uv;
+    chanceOfRain.textContent = weatherdata?.current?.cloud;
+    gust.textContent =  weatherdata?.current?.gust_kph;
+    visibility.textContent =  weatherdata?.current?.vis_km;
+    dewPoint.textContent =  weatherdata?.current?.dewpoint_c;
+    windSpeed.textContent =  weatherdata?.current?.wind_kph;
+    windDegree.textContent =  weatherdata?.current?.wind_degree;
+    windDirection.textContent =  weatherdata?.current?.wind_dir;
+    heatIndex.textContent =  weatherdata?.current?.heatindex_c;
+    windChill.textContent =  weatherdata?.current?.windchill_c;
+
+}
+
