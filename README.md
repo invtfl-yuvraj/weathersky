@@ -4,8 +4,7 @@ A modern weather application built with Vanilla JavaScript and styled using Tail
 
 ## Preview link
     
-    ```bash
-   https://weathersky.vercel.app/
+- https://weathersky.vercel.app/
     
 
 ## Features
